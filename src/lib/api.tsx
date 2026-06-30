@@ -85,7 +85,7 @@ export const api = {
       throw new Error(errorMessage);
     }
     
-    return data;
+    return data || {};
   },
 
   async refreshTokens(): Promise<boolean> {
@@ -101,7 +101,7 @@ export const api = {
       if (!res.ok) return false;
 
       const data = await res.json();
-      if (data.success && data.accessToken) {
+      if (data && data.success && data.accessToken) {
         accessTokenMemory = data.accessToken;
         localStorage.setItem('accessToken', data.accessToken);
         return true;
