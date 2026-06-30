@@ -67,10 +67,24 @@ export const api = {
       return response.text();
     }
     
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || 'Something went wrong');
+    let data: any = null;
+    let text = '';
+    
+    try {
+      text = await response.text();
+      if (text.trim()) {
+        data = JSON.parse(text);
+      }
+    } catch (e) {
+      // JSON parsing failed (e.g. response was HTML or plain text)
     }
+
+    if (!response.ok) {
+      const errorMessage = (data && data.message) || (text && text.length < 100 ? text : null) || `Request failed with status ${response.status}`;
+      console.error(`API Error: ${response.status} on ${response.url} - ${errorMessage}`);
+      throw new Error(errorMessage);
+    }
+    
     return data;
   },
 
