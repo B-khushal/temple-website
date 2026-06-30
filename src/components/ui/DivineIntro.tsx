@@ -305,7 +305,7 @@ export function DivineIntro({ forcePlay = false, onComplete }: DivineIntroProps)
             textShadow: '0 2px 10px rgba(0,0,0,0.9)',
           }}
         >
-          శ్రీశ్రీశ్రీ దుర్గా మాత ఆలయం
+          శ్రీ శ్రీ శ్రీ దుర్గామాత నల్లపోచమ్మ దేవాలయం
         </h2>
       </div>
 
