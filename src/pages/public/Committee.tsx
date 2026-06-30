@@ -113,14 +113,14 @@ export function Committee() {
                 <div className="border-t border-gray-100 pt-4 mt-6 space-y-2 text-[10px] font-sans text-gray-500">
                   {member.email && (
                     <div className="flex items-center gap-2 justify-center">
-                      <Mail className="w-3.5 h-3.5 text-[#C09B6A]" />
-                      <span>{member.email}</span>
+                      <Mail className="w-3.5 h-3.5 text-[#C09B6A] flex-shrink-0" />
+                      <a href={`mailto:${member.email}`} className="hover:text-[#9B2226] transition-colors">{member.email}</a>
                     </div>
                   )}
                   {member.phone && (
                     <div className="flex items-center gap-2 justify-center">
-                      <Phone className="w-3.5 h-3.5 text-[#C09B6A]" />
-                      <span>{member.phone}</span>
+                      <Phone className="w-3.5 h-3.5 text-[#C09B6A] flex-shrink-0" />
+                      <a href={`tel:${member.phone}`} className="hover:text-[#9B2226] transition-colors">{member.phone}</a>
                     </div>
                   )}
                 </div>

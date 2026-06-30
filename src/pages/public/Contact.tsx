@@ -99,7 +99,9 @@ export function Contact() {
               </div>
               <div>
                 <h4 className="font-sans font-bold text-xs uppercase text-gray-500 mb-1">Phone Enquiries</h4>
-                <p className="text-sm font-sans font-bold">+91 99999 99999, +91 98480 12345</p>
+                <p className="text-sm font-sans font-bold">
+                  <a href="tel:+919999999999" className="hover:text-[#9B2226] transition-colors">+91 99999 99999</a>, <a href="tel:+919848012345" className="hover:text-[#9B2226] transition-colors">+91 98480 12345</a>
+                </p>
               </div>
             </div>
 
@@ -109,7 +111,9 @@ export function Contact() {
               </div>
               <div>
                 <h4 className="font-sans font-bold text-xs uppercase text-gray-500 mb-1">Email Contacts</h4>
-                <p className="text-sm font-sans font-bold">info@sridurgamatatemple.org</p>
+                <p className="text-sm font-sans font-bold">
+                  <a href="mailto:info@sridurgamatatemple.org" className="hover:text-[#9B2226] transition-colors">info@sridurgamatatemple.org</a>
+                </p>
               </div>
             </div>
 
@@ -119,7 +123,9 @@ export function Contact() {
               </div>
               <div>
                 <h4 className="font-sans font-bold text-xs uppercase text-gray-500 mb-1">Digital Presence</h4>
-                <p className="text-sm font-sans">www.sridurgamatatemple.org</p>
+                <p className="text-sm font-sans">
+                  <a href="https://www.sridurgamatatemple.org" target="_blank" rel="noreferrer" className="hover:text-[#9B2226] transition-colors">www.sridurgamatatemple.org</a>
+                </p>
               </div>
             </div>
           </div>
@@ -133,7 +139,7 @@ export function Contact() {
         <div className="lg:col-span-7">
           <Card className="bg-white border-[#EEDCC1] shadow-xl rounded-3xl overflow-hidden h-full flex flex-col justify-between">
             <div className="h-2 bg-[#9B2226]" />
-            <CardContent className="p-8 flex-grow flex flex-col justify-between">
+            <CardContent className="p-6 sm:p-8 flex-grow flex flex-col justify-between">
               
               {success ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-center py-16">
@@ -144,7 +150,7 @@ export function Contact() {
                   </p>
                   <Button 
                     onClick={() => setSuccess(false)} 
-                    className="mt-8 font-sans text-xs bg-[#9B2226] hover:bg-[#7a181b] text-white rounded-full px-8"
+                    className="mt-8 font-sans text-xs bg-[#9B2226] hover:bg-[#7a181b] text-white rounded-full px-8 py-3"
                   >
                     Send Another Message
                   </Button>
@@ -169,7 +175,7 @@ export function Contact() {
                           placeholder="Name"
                           value={name}
                           onChange={e => setName(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50/50"
+                          className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-sm outline-none focus:border-[#9B2226] focus:ring-1 focus:ring-[#9B2226] transition-all"
                         />
                       </div>
                       <div className="space-y-1">
@@ -180,7 +186,7 @@ export function Contact() {
                           placeholder="Phone number"
                           value={phone}
                           onChange={e => setPhone(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50/50"
+                          className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-sm outline-none focus:border-[#9B2226] focus:ring-1 focus:ring-[#9B2226] transition-all"
                         />
                       </div>
                     </div>
@@ -194,7 +200,7 @@ export function Contact() {
                           placeholder="email@example.com"
                           value={email}
                           onChange={e => setEmail(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50/50"
+                          className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-sm outline-none focus:border-[#9B2226] focus:ring-1 focus:ring-[#9B2226] transition-all"
                         />
                       </div>
                       <div className="space-y-1">
@@ -205,7 +211,7 @@ export function Contact() {
                           placeholder="Inquiry subject"
                           value={subject}
                           onChange={e => setSubject(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50/50"
+                          className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-sm outline-none focus:border-[#9B2226] focus:ring-1 focus:ring-[#9B2226] transition-all"
                         />
                       </div>
                     </div>
@@ -218,14 +224,14 @@ export function Contact() {
                         placeholder="Type details of your message here..."
                         value={message}
                         onChange={e => setMessage(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50/50 resize-none"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-sm outline-none focus:border-[#9B2226] focus:ring-1 focus:ring-[#9B2226] transition-all resize-none"
                       />
                     </div>
 
                     <Button
                       type="submit"
                       disabled={loading}
-                      className="w-full py-4 bg-[#9B2226] hover:bg-[#7a181b] text-white flex justify-center items-center gap-2 font-bold uppercase rounded-lg transition-transform hover:scale-[1.01]"
+                      className="w-full py-3.5 bg-[#9B2226] hover:bg-[#7a181b] text-white flex justify-center items-center gap-2 font-bold uppercase rounded-xl transition-all shadow-md"
                     >
                       <Send className="w-3.5 h-3.5" /> {loading ? 'Sending...' : 'Send Message'}
                     </Button>

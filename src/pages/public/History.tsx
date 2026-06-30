@@ -99,9 +99,9 @@ export function History() {
                 </div>
 
                 {/* Left card */}
-                <div className={`w-full md:w-1/2 pl-12 md:pl-0 md:pr-12 flex flex-col ${isLeft ? 'md:items-end text-left md:text-right' : 'md:opacity-0 md:pointer-events-none md:absolute'}`}>
+                <div className={`w-full md:w-1/2 pl-12 md:pl-0 md:pr-12 flex flex-col ${isLeft ? 'block md:items-end text-left md:text-right' : 'hidden md:block md:invisible md:pointer-events-none md:absolute'}`}>
                   {isLeft && (
-                    <div className="bg-white p-6 rounded-3xl border border-[#EEDCC1] shadow-sm space-y-4 hover:border-[#CFB53B]/50 transition-colors max-w-lg">
+                    <div className="bg-white p-6 rounded-3xl border border-[#EEDCC1] shadow-sm space-y-4 hover:border-[#CFB53B]/50 transition-colors max-w-lg w-full">
                       <div className="flex items-center justify-start md:justify-end gap-2 text-xs font-sans font-bold text-gray-500">
                         {getTimelineIcon(item.type)}
                         <span className="uppercase tracking-widest text-[#9B2226]">{item.type}</span>
@@ -112,7 +112,8 @@ export function History() {
                         <img 
                           src={item.imageUrl} 
                           alt={item.title} 
-                          className="w-full h-48 object-cover rounded-2xl shadow-inner mt-2" 
+                          className="w-full h-48 object-cover rounded-2xl shadow-inner mt-2 animate-[fadeIn_0.5s_ease-out]" 
+                          loading="lazy"
                         />
                       )}
                       <p className="text-gray-600 font-sans text-sm leading-relaxed">{item.description}</p>
@@ -121,9 +122,9 @@ export function History() {
                 </div>
 
                 {/* Right card */}
-                <div className={`w-full md:w-1/2 pl-12 md:pl-12 flex flex-col ${!isLeft ? 'items-start text-left' : 'md:opacity-0 md:pointer-events-none md:absolute'}`}>
+                <div className={`w-full md:w-1/2 pl-12 md:pl-12 flex flex-col ${!isLeft ? 'block items-start text-left' : 'hidden md:block md:invisible md:pointer-events-none md:absolute'}`}>
                   {!isLeft && (
-                    <div className="bg-white p-6 rounded-3xl border border-[#EEDCC1] shadow-sm space-y-4 hover:border-[#CFB53B]/50 transition-colors max-w-lg">
+                    <div className="bg-white p-6 rounded-3xl border border-[#EEDCC1] shadow-sm space-y-4 hover:border-[#CFB53B]/50 transition-colors max-w-lg w-full">
                       <div className="flex items-center gap-2 text-xs font-sans font-bold text-gray-500">
                         {getTimelineIcon(item.type)}
                         <span className="uppercase tracking-widest text-[#9B2226]">{item.type}</span>
@@ -134,7 +135,8 @@ export function History() {
                         <img 
                           src={item.imageUrl} 
                           alt={item.title} 
-                          className="w-full h-48 object-cover rounded-2xl shadow-inner mt-2" 
+                          className="w-full h-48 object-cover rounded-2xl shadow-inner mt-2 animate-[fadeIn_0.5s_ease-out]" 
+                          loading="lazy"
                         />
                       )}
                       <p className="text-gray-600 font-sans text-sm leading-relaxed">{item.description}</p>

@@ -144,7 +144,8 @@ export function UsersAdmin() {
       <Card>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full text-left font-sans text-xs">
+            {/* Desktop Table View */}
+            <table className="w-full text-left font-sans text-xs hidden md:table">
               <thead className="bg-gray-50 text-gray-400 uppercase tracking-tighter border-b border-gray-100">
                 <tr>
                   <th className="px-6 py-3 font-bold">Admin Operator</th>
@@ -176,11 +177,12 @@ export function UsersAdmin() {
                     </td>
                     <td className="px-6 py-3 text-right">
                       <div className="flex gap-2 justify-end">
-                        <button onClick={() => handleOpenEdit(u)} className="text-gray-500 hover:text-gray-700 bg-transparent border-0"><Edit2 className="w-4 h-4" /></button>
+                        <button onClick={() => handleOpenEdit(u)} className="text-gray-500 hover:text-gray-700 bg-transparent border-0 cursor-pointer" title="Edit"><Edit2 className="w-4 h-4" /></button>
                         <button 
                           onClick={() => handleDelete(u._id)} 
                           disabled={u._id === currentUser.id}
-                          className="text-red-500 hover:text-red-700 bg-transparent border-0 disabled:opacity-30 disabled:cursor-not-allowed"
+                          className="text-red-500 hover:text-red-700 bg-transparent border-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                          title="Delete"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -190,6 +192,42 @@ export function UsersAdmin() {
                 ))}
               </tbody>
             </table>
+
+            {/* Mobile Card List Fallback */}
+            <div className="block md:hidden divide-y divide-gray-100 p-4 space-y-4 font-sans text-xs">
+              {Array.isArray(users) && users.map(u => (
+                <div key={u._id} className="pt-4 first:pt-0 space-y-2">
+                  <div className="flex justify-between items-start">
+                    <span className="font-bold text-gray-800 text-sm flex items-center gap-2">
+                      <div className="w-7 h-7 rounded bg-[#F7F1E5] flex items-center justify-center font-bold text-[10px] text-[#9B2226]">
+                        {u.name.split(' ').map((n: string) => n[0]).join('').slice(0,2).toUpperCase()}
+                      </div>
+                      <span className="truncate max-w-[120px]">{u.name} {u._id === currentUser.id && '(You)'}</span>
+                    </span>
+                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase ${
+                      u.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                    }`}>
+                      {u.isActive ? 'Active' : 'Deactivated'}
+                    </span>
+                  </div>
+                  <div className="text-gray-500 text-[10px] font-mono leading-tight pl-9">
+                    <div>Email: <span className="text-gray-700 font-sans">{u.email}</span></div>
+                    <div>Role: <span className="font-sans font-bold text-[#9B2226]">{u.role}</span></div>
+                  </div>
+                  <div className="flex justify-end gap-3 pt-1 pl-9">
+                    <button onClick={() => handleOpenEdit(u)} className="text-gray-500 hover:text-gray-700 p-1.5 rounded bg-gray-50 flex items-center justify-center cursor-pointer border-0 bg-transparent" title="Edit"><Edit2 className="w-4 h-4" /></button>
+                    <button 
+                      onClick={() => handleDelete(u._id)} 
+                      disabled={u._id === currentUser.id}
+                      className="text-red-500 hover:text-red-700 p-1.5 rounded bg-red-50/50 flex items-center justify-center cursor-pointer border-0 bg-transparent disabled:opacity-30 disabled:cursor-not-allowed"
+                      title="Delete"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </CardContent>
       </Card>

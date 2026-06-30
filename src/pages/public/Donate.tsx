@@ -259,7 +259,7 @@ export function Donate() {
                           placeholder="Name / Family Name"
                           value={donorName}
                           onChange={e => setDonorName(e.target.value)}
-                          className="w-full px-3 py-2 border border-[#EEDCC1] rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 bg-[#FDFBF7]"
+                          className="w-full px-4 py-3 border border-[#EEDCC1] rounded-xl focus:outline-none focus:ring-1 focus:ring-orange-500 bg-[#FDFBF7] text-sm outline-none transition-all"
                         />
                       </div>
                       <div className="space-y-1">
@@ -270,7 +270,7 @@ export function Donate() {
                           placeholder="10 digit mobile"
                           value={phone}
                           onChange={e => setPhone(e.target.value)}
-                          className="w-full px-3 py-2 border border-[#EEDCC1] rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 bg-[#FDFBF7]"
+                          className="w-full px-4 py-3 border border-[#EEDCC1] rounded-xl focus:outline-none focus:ring-1 focus:ring-orange-500 bg-[#FDFBF7] text-sm outline-none transition-all"
                         />
                       </div>
                     </div>
@@ -283,7 +283,7 @@ export function Donate() {
                           placeholder="for e-receipt"
                           value={email}
                           onChange={e => setEmail(e.target.value)}
-                          className="w-full px-3 py-2 border border-[#EEDCC1] rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 bg-[#FDFBF7]"
+                          className="w-full px-4 py-3 border border-[#EEDCC1] rounded-xl focus:outline-none focus:ring-1 focus:ring-orange-500 bg-[#FDFBF7] text-sm outline-none transition-all"
                         />
                       </div>
                       <div className="space-y-1">
@@ -291,7 +291,7 @@ export function Donate() {
                         <select
                           value={donationType}
                           onChange={e => setDonationType(e.target.value)}
-                          className="w-full px-3 py-2 border border-[#EEDCC1] rounded-md bg-[#FDFBF7] font-semibold"
+                          className="w-full px-4 py-3 border border-[#EEDCC1] rounded-xl bg-[#FDFBF7] text-sm outline-none font-semibold cursor-pointer"
                         >
                           <option value="Monetary">Monetary Donation</option>
                           <option value="Gold">Gold Offering</option>
@@ -309,7 +309,7 @@ export function Donate() {
                         <div className="space-y-1">
                           <label className="font-bold text-gray-700">Amount (INR) *</label>
                           <div className="relative">
-                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-bold">₹</span>
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold text-sm">₹</span>
                             <input
                               type="number"
                               required
@@ -317,7 +317,7 @@ export function Donate() {
                               placeholder="Enter Amount"
                               value={amount}
                               onChange={e => setAmount(e.target.value === '' ? '' : Number(e.target.value))}
-                              className="w-full pl-7 pr-3 py-2 border border-[#EEDCC1] rounded-md focus:outline-none bg-[#FDFBF7] font-bold text-sm text-[#9B2226]"
+                              className="w-full pl-8 pr-4 py-3 border border-[#EEDCC1] rounded-xl focus:outline-none bg-[#FDFBF7] font-bold text-sm text-[#9B2226] outline-none"
                             />
                           </div>
                         </div>
@@ -328,7 +328,7 @@ export function Donate() {
                             <select
                               value={paymentMethod}
                               onChange={e => setPaymentMethod(e.target.value)}
-                              className="w-full px-3 py-2 border border-[#EEDCC1] rounded-md bg-[#FDFBF7]"
+                              className="w-full px-4 py-3 border border-[#EEDCC1] rounded-xl bg-[#FDFBF7] text-sm outline-none cursor-pointer"
                             >
                               <option value="UPI">UPI (QR Code Scan)</option>
                               <option value="Bank Transfer">Bank Wire Transfer</option>
@@ -343,7 +343,7 @@ export function Donate() {
                               type="text" 
                               disabled 
                               value={donationType === 'Construction' ? 'Mandir Expansion Project' : 'Daily Annadanam Program'}
-                              className="w-full px-3 py-2 border border-gray-200 rounded-md bg-gray-50 text-gray-600 font-bold" 
+                              className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-600 text-sm font-bold" 
                             />
                           </div>
                         )}
@@ -360,7 +360,7 @@ export function Donate() {
                               placeholder="e.g. 50g"
                               value={itemWeight}
                               onChange={e => setItemWeight(e.target.value)}
-                              className="w-full px-3 py-2 border border-[#EEDCC1] rounded-md bg-[#FDFBF7]"
+                              className="w-full px-4 py-3 border border-[#EEDCC1] rounded-xl bg-[#FDFBF7] text-sm outline-none"
                             />
                           </div>
                           <div className="space-y-1">
@@ -370,7 +370,7 @@ export function Donate() {
                               placeholder="e.g. 150000"
                               value={estimatedValue}
                               onChange={e => setEstimatedValue(e.target.value)}
-                              className="w-full px-3 py-2 border border-[#EEDCC1] rounded-md bg-[#FDFBF7]"
+                              className="w-full px-4 py-3 border border-[#EEDCC1] rounded-xl bg-[#FDFBF7] text-sm outline-none"
                             />
                           </div>
                         </div>
@@ -383,7 +383,7 @@ export function Donate() {
                             placeholder="Describe the asset/item (e.g. Gold chain, Silver plate, Land coordinates)"
                             value={itemDescription}
                             onChange={e => setItemDescription(e.target.value)}
-                            className="w-full px-3 py-2 border border-[#EEDCC1] rounded-md bg-[#FDFBF7] resize-none"
+                            className="w-full px-4 py-3 border border-[#EEDCC1] rounded-xl bg-[#FDFBF7] text-sm outline-none resize-none"
                           />
                         </div>
                       </div>
@@ -395,7 +395,7 @@ export function Donate() {
                         <select
                           value={purpose}
                           onChange={e => setPurpose(e.target.value)}
-                          className="w-full px-3 py-2 border border-[#EEDCC1] rounded-md bg-[#FDFBF7]"
+                          className="w-full px-4 py-3 border border-[#EEDCC1] rounded-xl bg-[#FDFBF7] text-sm outline-none cursor-pointer"
                         >
                           <option>General Fund</option>
                           <option>Daily Annadanam</option>
@@ -406,22 +406,22 @@ export function Donate() {
                       </div>
                     )}
 
-                    <div className="flex items-center gap-2 pt-2">
+                    <div className="flex items-center gap-3 pt-2">
                       <input
                         type="checkbox"
                         id="public-visible"
                         checked={isPublic}
                         onChange={e => setIsPublic(e.target.checked)}
-                        className="rounded text-orange-600 focus:ring-orange-500 w-4 h-4 cursor-pointer"
+                        className="rounded text-orange-600 focus:ring-orange-500 w-5 h-5 cursor-pointer flex-shrink-0"
                       />
-                      <label htmlFor="public-visible" className="text-gray-600 select-none cursor-pointer">
+                      <label htmlFor="public-visible" className="text-gray-600 select-none cursor-pointer text-xs leading-none">
                         Display my name on the public donors bulletin board
                       </label>
                     </div>
 
                     <Button
                       type="submit"
-                      className="w-full py-5 bg-[#9B2226] hover:bg-[#7a181b] text-white flex justify-center items-center gap-2 font-bold tracking-widest text-xs uppercase rounded-md shadow-md shadow-[#9B2226]/10 mt-6"
+                      className="w-full py-4 bg-[#9B2226] hover:bg-[#7a181b] text-white flex justify-center items-center gap-2 font-bold tracking-widest text-xs uppercase rounded-xl shadow-md shadow-[#9B2226]/10 mt-6"
                     >
                       <Send className="w-3.5 h-3.5" /> Proceed to Offering
                     </Button>

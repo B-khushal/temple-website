@@ -56,77 +56,78 @@ export function Dashboard() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-8 h-full">
+    <div className="flex flex-col gap-6 sm:gap-8 h-full">
       <div className="flex justify-between items-end flex-wrap gap-4">
         <div className="space-y-1">
-          <h2 className="text-3xl font-bold italic tracking-tight">Divine Overview</h2>
-          <p className="text-gray-500 font-sans text-xs uppercase tracking-widest">
+          <h2 className="text-2xl sm:text-3xl font-bold italic tracking-tight">Divine Overview</h2>
+          <p className="text-gray-500 font-sans text-[10px] sm:text-xs uppercase tracking-widest">
             Status: Ashtami Pooja in Progress • Mandir Open
           </p>
         </div>
-        <div className="flex gap-2 font-sans text-xs">
+        <div className="flex flex-wrap gap-2 font-sans text-xs w-full sm:w-auto">
           <button
             onClick={() => navigate('/admin/finances')}
-            className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors cursor-pointer bg-white"
+            className="flex-1 sm:flex-none px-4 py-2.5 border rounded-lg hover:bg-gray-50 transition-colors cursor-pointer bg-white text-center font-bold"
           >
             Ledger Audit
           </button>
           <button
             onClick={() => navigate('/admin/donations')}
-            className="px-4 py-2 bg-[#9B2226] text-white rounded-lg hover:bg-[#7a181b] transition-colors cursor-pointer font-bold"
+            className="flex-1 sm:flex-none px-4 py-2.5 bg-[#9B2226] text-white rounded-lg hover:bg-[#7a181b] transition-colors cursor-pointer font-bold text-center"
           >
-            New Donation Entry
+            New Donation
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-serif">
-        <Card>
-          <CardContent className="p-6">
-            <span className="text-[10px] uppercase tracking-wider text-gray-500 font-sans font-bold">Total Corpus</span>
-            <span className="text-2xl font-bold italic block mt-1">₹{stats.totalCorpus?.toLocaleString()}</span>
-            <span className="text-[10px] text-green-600 font-bold font-sans">Live Mongoose Sync</span>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 font-serif">
+        <Card className="bg-white border border-[#EEDCC1]/80 shadow-sm">
+          <CardContent className="p-4 sm:p-6">
+            <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500 font-sans font-bold">Total Corpus</span>
+            <span className="text-lg sm:text-2xl font-bold italic block mt-1">₹{stats.totalCorpus?.toLocaleString()}</span>
+            <span className="text-[9px] text-green-600 font-bold font-sans">Live Mongoose Sync</span>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
-            <span className="text-[10px] uppercase tracking-wider text-gray-500 font-sans font-bold">Gold Reserve</span>
-            <span className="text-2xl font-bold italic block mt-1">{stats.goldReserveWeight} kg</span>
-            <span className="text-[10px] text-gray-400 font-sans italic">Market Value: ~₹{(stats.goldReserveValuation / 10000000).toFixed(2)} Cr</span>
+        <Card className="bg-white border border-[#EEDCC1]/80 shadow-sm">
+          <CardContent className="p-4 sm:p-6">
+            <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500 font-sans font-bold">Gold Reserve</span>
+            <span className="text-lg sm:text-2xl font-bold italic block mt-1">{stats.goldReserveWeight} kg</span>
+            <span className="text-[9px] text-gray-400 font-sans italic truncate block">Value: ~₹{(stats.goldReserveValuation / 10000000).toFixed(2)} Cr</span>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <span className="text-[10px] uppercase tracking-wider text-gray-500 font-sans font-bold">Today's Collection</span>
-            <span className="text-2xl font-bold italic block mt-1">₹{stats.todayCollection?.toLocaleString()}</span>
-            <span className="text-[10px] text-orange-600 font-sans font-bold uppercase animate-pulse">Live Updates</span>
+        <Card className="bg-white border border-[#EEDCC1]/80 shadow-sm">
+          <CardContent className="p-4 sm:p-6">
+            <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500 font-sans font-bold">Today's Collection</span>
+            <span className="text-lg sm:text-2xl font-bold italic block mt-1">₹{stats.todayCollection?.toLocaleString()}</span>
+            <span className="text-[9px] text-orange-600 font-sans font-bold uppercase animate-pulse">Live Updates</span>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <span className="text-[10px] uppercase tracking-wider text-gray-500 font-sans font-bold">Active Donors</span>
-            <span className="text-2xl font-bold italic block mt-1">{stats.activeDonors}</span>
-            <span className="text-[10px] text-gray-400 font-sans">Global Network</span>
+        <Card className="bg-white border border-[#EEDCC1]/80 shadow-sm">
+          <CardContent className="p-4 sm:p-6">
+            <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500 font-sans font-bold">Active Donors</span>
+            <span className="text-lg sm:text-2xl font-bold italic block mt-1">{stats.activeDonors}</span>
+            <span className="text-[9px] text-gray-400 font-sans">Global Network</span>
           </CardContent>
         </Card>
       </div>
 
-      <div className="flex-1 flex flex-col lg:flex-row gap-6 min-h-0">
+      <div className="flex-grow flex flex-col lg:flex-row gap-6 min-h-0">
         
         {/* Recent offerings Table */}
         <div className="flex-[2] flex flex-col bg-white rounded-2xl shadow-sm border border-[#EEDCC1] overflow-hidden min-h-[300px]">
-          <div className="px-6 py-4 border-b border-[#F5F2ED] flex items-center justify-between">
+          <div className="px-6 py-4 border-b border-[#F5F2ED] flex items-center justify-between flex-wrap gap-2">
             <h4 className="text-xs font-bold uppercase tracking-widest font-sans">Recent Offerings Log</h4>
             <Link to="/admin/donations" className="text-[10px] text-[#9B2226] font-bold font-sans hover:underline">
               View All Donations →
             </Link>
           </div>
           <div className="flex-1 overflow-auto">
-            <table className="w-full text-left font-sans text-xs">
-              <thead className="bg-gray-50 sticky top-0 text-gray-400 uppercase tracking-tighter">
+            {/* Desktop Table View */}
+            <table className="w-full text-left font-sans text-xs hidden md:table">
+              <thead className="bg-gray-50 sticky top-0 text-gray-400 uppercase tracking-tighter border-b border-gray-100">
                 <tr>
                   <th className="px-6 py-3 font-bold">Donor Name</th>
                   <th className="px-6 py-3">Type</th>
@@ -160,11 +161,42 @@ export function Dashboard() {
                 )}
               </tbody>
             </table>
+
+            {/* Mobile Card View Fallback */}
+            <div className="block md:hidden divide-y divide-gray-100 p-4 space-y-4">
+              {Array.isArray(recentOfferings) && recentOfferings.map((doc) => (
+                <div key={doc._id} className="pt-4 first:pt-0 space-y-2">
+                  <div className="flex justify-between items-start">
+                    <span className="font-bold text-gray-800 text-xs">{doc.donorName}</span>
+                    <span className={`px-2 py-0.5 rounded-full text-[8px] font-bold uppercase ${
+                      doc.status === 'Verified' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
+                    }`}>
+                      {doc.status}
+                    </span>
+                  </div>
+                  <div className="text-gray-500 text-[10px] font-sans">
+                    Type: <span className="text-[#3E2723] font-bold">{doc.type}</span> ({doc.purpose})
+                  </div>
+                  <div className="flex justify-between items-center pt-1 font-sans">
+                    <span className="text-[10px] text-gray-400">Value</span>
+                    <span className="font-bold font-serif italic text-xs text-[#9B2226]">
+                      {doc.type === 'Monetary' ? `₹${doc.amount?.toLocaleString()}` : doc.itemDetails}
+                    </span>
+                  </div>
+                </div>
+              ))}
+              {(!Array.isArray(recentOfferings) || recentOfferings.length === 0) && (
+                <div className="text-center text-gray-400 py-8 font-sans text-xs">
+                  No recent offerings logged yet.
+                </div>
+              )}
+            </div>
+
           </div>
         </div>
 
         {/* Quick Actions Panel */}
-        <div className="flex-grow flex flex-col gap-6">
+        <div className="flex-grow flex flex-col gap-6 lg:max-w-xs">
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#EEDCC1] flex-1 flex flex-col justify-between">
             <h4 className="text-[10px] font-bold uppercase tracking-widest font-sans mb-4">Quick Management Actions</h4>
             

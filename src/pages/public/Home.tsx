@@ -130,37 +130,38 @@ export function Home() {
             </div>
 
             {/* Call to Actions */}
+            {/* Call to Actions */}
             <motion.div 
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 2.5, duration: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+              className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center lg:justify-start"
             >
-              <Link to="/donate">
-                <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-[#CFB53B] to-[#997f1f] hover:from-[#e2c748] hover:to-[#bd9d27] text-black border-0 font-sans font-bold px-8 py-5 text-sm rounded-full shadow-lg transition-transform hover:scale-105">
+              <Link to="/donate" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full bg-gradient-to-r from-[#CFB53B] to-[#997f1f] hover:from-[#e2c748] hover:to-[#bd9d27] text-black border-0 font-sans font-bold px-8 py-5 text-sm rounded-full shadow-lg transition-transform hover:scale-105">
                   Donate Now
                 </Button>
               </Link>
-              <a href="#about-section">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto border-[#CFB53B] text-[#CFB53B] hover:bg-[#CFB53B]/10 font-sans font-bold px-8 py-5 text-sm rounded-full backdrop-blur-sm transition-transform hover:scale-105">
+              <a href="#about-section" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full border-[#CFB53B] text-[#CFB53B] hover:bg-[#CFB53B]/10 font-sans font-bold px-8 py-5 text-sm rounded-full backdrop-blur-sm transition-transform hover:scale-105">
                   Explore Temple
                 </Button>
               </a>
-              <Link to="/events">
-                <Button size="lg" className="w-full sm:w-auto bg-red-800/80 hover:bg-red-800 text-white font-sans font-bold px-8 py-5 text-sm rounded-full transition-transform hover:scale-105">
+              <Link to="/events" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full bg-red-800/80 hover:bg-red-800 text-white font-sans font-bold px-8 py-5 text-sm rounded-full transition-transform hover:scale-105">
                   View Events
                 </Button>
               </Link>
             </motion.div>
 
-            {/* Real-Time Statistics Row (Swipeable on Mobile) */}
+            {/* Real-Time Statistics Row (Adaptive Grid on Mobile) */}
             <motion.div 
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 3.0, duration: 0.8 }}
               className="w-full pt-6"
             >
-              <div className="flex md:grid md:grid-cols-4 overflow-x-auto snap-x snap-mandatory gap-4 pb-2 scrollbar-none">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full">
                 {[
                   { value: `${publicStats?.yearsOfHeritage || 42} Years`, label: 'Heritage Legacy' },
                   { value: `${publicStats?.registeredDevotees?.toLocaleString() || '25,000'}+`, label: 'Devotee Family' },
@@ -169,10 +170,10 @@ export function Home() {
                 ].map((stat, i) => (
                   <div 
                     key={i} 
-                    className="snap-center shrink-0 w-36 md:w-auto p-4 rounded-2xl bg-black/40 border border-[#CFB53B]/20 backdrop-blur-sm flex flex-col items-center justify-center text-center shadow-md hover:border-[#CFB53B]/50 transition-colors"
+                    className="p-3 md:p-4 rounded-2xl bg-black/40 border border-[#CFB53B]/20 backdrop-blur-sm flex flex-col items-center justify-center text-center shadow-md hover:border-[#CFB53B]/50 transition-colors"
                   >
-                    <span className="text-[#CFB53B] font-bold text-base md:text-lg tracking-tight font-sans">{stat.value}</span>
-                    <span className="text-[9px] uppercase tracking-wider text-gray-400 font-sans font-bold mt-1">{stat.label}</span>
+                    <span className="text-[#CFB53B] font-bold text-sm md:text-lg tracking-tight font-sans">{stat.value}</span>
+                    <span className="text-[8px] md:text-[9px] uppercase tracking-wider text-gray-400 font-sans font-bold mt-1 leading-tight">{stat.label}</span>
                   </div>
                 ))}
               </div>
@@ -181,31 +182,31 @@ export function Home() {
           </div>
 
           {/* Right Column: Divine Showcase */}
-          <div className="lg:col-span-6 flex items-center justify-center relative min-h-[350px] md:min-h-[500px]">
+          <div className="lg:col-span-6 flex items-center justify-center relative min-h-[300px] md:min-h-[500px] overflow-hidden">
             
             {/* Glowing Golden Backlight behind head */}
             <div 
-              className="absolute w-72 h-72 md:w-96 md:h-96 rounded-full bg-[#CFB53B]/10 blur-[80px] pointer-events-none"
-              style={{ transform: `translateY(${scrollY * 0.08}px)` }}
+              className="absolute w-60 h-60 md:w-96 md:h-96 rounded-full bg-[#CFB53B]/10 blur-[60px] md:blur-[80px] pointer-events-none"
+              style={{ transform: `translateY(${scrollY * 0.04}px)` }}
             />
 
             {/* Soft Radial Aura */}
-            <div className="absolute w-60 h-60 md:w-80 md:h-80 rounded-full bg-[#9B2226]/25 blur-[100px] pointer-events-none" />
+            <div className="absolute w-52 h-52 md:w-80 md:h-80 rounded-full bg-[#9B2226]/20 md:bg-[#9B2226]/25 blur-[80px] md:blur-[100px] pointer-events-none" />
 
             {/* Rotating Mandala Halo */}
             <div 
-              className="absolute pointer-events-none opacity-20 w-[280px] h-[280px] md:w-[450px] md:h-[450px] border border-dashed border-[#CFB53B] rounded-full animate-spin"
+              className="absolute pointer-events-none opacity-20 w-[240px] h-[240px] md:w-[450px] md:h-[450px] border border-dashed border-[#CFB53B] rounded-full animate-spin"
               style={{ 
                 animationDuration: '70s',
-                transform: `rotate(${scrollY * 0.06}deg)` 
+                transform: `rotate(${scrollY * 0.03}deg)` 
               }}
             />
             <div 
-              className="absolute pointer-events-none opacity-10 w-[240px] h-[240px] md:w-[380px] md:h-[380px] border border-double border-[#CFB53B] rounded-full animate-spin"
+              className="absolute pointer-events-none opacity-10 w-[200px] h-[200px] md:w-[380px] md:h-[380px] border border-double border-[#CFB53B] rounded-full animate-spin"
               style={{ 
                 animationDuration: '100s', 
                 animationDirection: 'reverse',
-                transform: `rotate(-${scrollY * 0.04}deg)`
+                transform: `rotate(-${scrollY * 0.02}deg)`
               }}
             />
 
@@ -214,13 +215,13 @@ export function Home() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0, duration: 1.2, ease: "easeOut" }}
-              className="relative z-10 w-full max-w-[280px] md:max-w-[420px] aspect-square flex items-center justify-center"
-              style={{ transform: `translateY(${scrollY * 0.12}px)` }}
+              className="relative z-10 w-full max-w-[240px] sm:max-w-[300px] md:max-w-[420px] aspect-square flex items-center justify-center"
+              style={{ transform: `translateY(${scrollY * 0.05}px)` }}
             >
               <img 
                 src={durgaIdolImage} 
                 alt="Sri Maa Durga Idol" 
-                className="w-full h-full object-contain pointer-events-none filter drop-shadow-[0_15px_40px_rgba(0,0,0,0.85)]"
+                className="w-full h-full object-contain pointer-events-none filter drop-shadow-[0_10px_30px_rgba(0,0,0,0.85)]"
                 style={{
                   maskImage: 'radial-gradient(circle at 50% 45%, black 50%, transparent 95%)',
                   WebkitMaskImage: 'radial-gradient(circle at 50% 45%, black 50%, transparent 95%)',
@@ -229,13 +230,13 @@ export function Home() {
             </motion.div>
 
             {/* Small Diyas animations */}
-            <div className="absolute -bottom-6 left-12 flex items-center justify-center gap-1.5 opacity-60">
-              <Flame className="w-5 h-5 text-[#F9A825] animate-pulse" />
-              <div className="w-3.5 h-1.5 rounded-full bg-orange-600/40 blur-[1px] mt-2" />
+            <div className="absolute -bottom-2 left-6 md:left-12 flex items-center justify-center gap-1.5 opacity-60">
+              <Flame className="w-4 h-4 md:w-5 md:h-5 text-[#F9A825] animate-pulse" />
+              <div className="w-2.5 h-1 md:w-3.5 md:h-1.5 rounded-full bg-orange-600/40 blur-[1px] mt-2" />
             </div>
-            <div className="absolute -bottom-6 right-12 flex items-center justify-center gap-1.5 opacity-60">
-              <Flame className="w-5 h-5 text-[#F9A825] animate-pulse" />
-              <div className="w-3.5 h-1.5 rounded-full bg-orange-600/40 blur-[1px] mt-2" />
+            <div className="absolute -bottom-2 right-6 md:right-12 flex items-center justify-center gap-1.5 opacity-60">
+              <Flame className="w-4 h-4 md:w-5 md:h-5 text-[#F9A825] animate-pulse" />
+              <div className="w-2.5 h-1 md:w-3.5 md:h-1.5 rounded-full bg-orange-600/40 blur-[1px] mt-2" />
             </div>
 
           </div>
@@ -248,42 +249,42 @@ export function Home() {
 
       {/* Quick Info Cards */}
       <section className="relative z-20 -mt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8">
           <Card className="bg-[#FFF]/95 backdrop-blur-xl border-[#EEDCC1] shadow-2xl border-t-4 border-t-[#C09B6A] hover:-translate-y-1 transition-transform duration-300">
-            <CardContent className="p-8 flex items-start gap-5">
-              <div className="p-4 bg-[#F7F1E5] rounded-2xl text-[#6B4E31] shadow-inner">
-                <Clock className="w-8 h-8" />
+            <CardContent className="p-6 sm:p-8 flex items-start gap-4 sm:gap-5">
+              <div className="p-3 sm:p-4 bg-[#F7F1E5] rounded-2xl text-[#6B4E31] shadow-inner flex-shrink-0">
+                <Clock className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
               <div>
-                <h3 className="font-bold font-sans tracking-widest text-[#9B2226] mb-2 text-xs uppercase">Temple Timings</h3>
-                <p className="text-sm text-gray-800 font-medium mb-1">Morning: 8:00 AM - 12:00 PM</p>
-                <p className="text-sm text-gray-800 font-medium">Evening: 5:00 PM - 8:30 PM</p>
+                <h3 className="font-bold font-sans tracking-widest text-[#9B2226] mb-2 text-[10px] sm:text-xs uppercase">Temple Timings</h3>
+                <p className="text-xs sm:text-sm text-gray-800 font-medium mb-1">Morning: 8:00 AM - 12:00 PM</p>
+                <p className="text-xs sm:text-sm text-gray-800 font-medium">Evening: 5:00 PM - 8:30 PM</p>
               </div>
             </CardContent>
           </Card>
           
           <Card className="bg-[#FFF]/95 backdrop-blur-xl border-[#EEDCC1] shadow-2xl border-t-4 border-t-[#9B2226] hover:-translate-y-1 transition-transform duration-300">
-            <CardContent className="p-8 flex items-start gap-5">
-              <div className="p-4 bg-[#F7F1E5] rounded-2xl text-[#9B2226] shadow-inner">
-                <MapPin className="w-8 h-8" />
+            <CardContent className="p-6 sm:p-8 flex items-start gap-4 sm:gap-5">
+              <div className="p-3 sm:p-4 bg-[#F7F1E5] rounded-2xl text-[#9B2226] shadow-inner flex-shrink-0">
+                <MapPin className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
               <div>
-                <h3 className="font-bold font-sans tracking-widest text-[#9B2226] mb-2 text-xs uppercase">Location Address</h3>
-                <p className="text-sm text-gray-800 font-medium mb-1">Bapu Nagar, Hyderabad,</p>
-                <p className="text-sm text-gray-800 font-medium">Telangana, India.</p>
+                <h3 className="font-bold font-sans tracking-widest text-[#9B2226] mb-2 text-[10px] sm:text-xs uppercase">Location Address</h3>
+                <p className="text-xs sm:text-sm text-gray-800 font-medium mb-1">Bapu Nagar, Hyderabad,</p>
+                <p className="text-xs sm:text-sm text-gray-800 font-medium">Telangana, India.</p>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-[#FFF]/95 backdrop-blur-xl border-[#EEDCC1] shadow-2xl border-t-4 border-t-[#C09B6A] hover:-translate-y-1 transition-transform duration-300">
-            <CardContent className="p-8 flex items-start gap-5">
-              <div className="p-4 bg-[#F7F1E5] rounded-2xl text-[#C09B6A] shadow-inner">
-                <Calendar className="w-8 h-8" />
+          <Card className="bg-[#FFF]/95 backdrop-blur-xl border-[#EEDCC1] shadow-2xl border-t-4 border-t-[#C09B6A] hover:-translate-y-1 transition-transform duration-300 sm:col-span-2 md:col-span-1">
+            <CardContent className="p-6 sm:p-8 flex items-start gap-4 sm:gap-5">
+              <div className="p-3 sm:p-4 bg-[#F7F1E5] rounded-2xl text-[#C09B6A] shadow-inner flex-shrink-0">
+                <Calendar className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
               <div>
-                <h3 className="font-bold font-sans tracking-widest text-[#9B2226] mb-2 text-xs uppercase">Upcoming Festival</h3>
-                <p className="text-sm font-bold text-[#3E2723] mb-1">Navratri Mahotsav</p>
-                <p className="text-sm text-[#C09B6A] font-medium">Grand Celebrations & Aarti</p>
+                <h3 className="font-bold font-sans tracking-widest text-[#9B2226] mb-2 text-[10px] sm:text-xs uppercase">Upcoming Festival</h3>
+                <p className="text-xs sm:text-sm font-bold text-[#3E2723] mb-1">Navratri Mahotsav</p>
+                <p className="text-xs sm:text-sm text-[#C09B6A] font-medium">Grand Celebrations & Aarti</p>
               </div>
             </CardContent>
           </Card>
@@ -292,39 +293,39 @@ export function Home() {
 
       {/* Real-time Devotee & Donation Counters */}
       <section className="py-12 bg-white mt-12 border-y border-[#EEDCC1]/50">
-        <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-center gap-12 text-center divide-x divide-[#EEDCC1]/50 font-sans text-xs">
-          <div className="px-8 flex flex-col items-center">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-4 text-center divide-y sm:divide-y-0 sm:divide-x divide-[#EEDCC1]/50 font-sans text-xs">
+          <div className="py-4 sm:py-0 flex flex-col items-center">
             <Users className="w-5 h-5 text-[#9B2226] mb-1" />
-            <p className="text-4xl font-bold text-[#9B2226] mb-2 tracking-tighter">
+            <p className="text-3xl md:text-4xl font-bold text-[#9B2226] mb-2 tracking-tighter">
               {publicStats?.registeredDevotees ? publicStats.registeredDevotees.toLocaleString() : '25,000'}
             </p>
             <p className="text-xs font-sans font-bold uppercase tracking-widest text-gray-500">Registered Devotees</p>
           </div>
-          <div className="px-8 flex flex-col items-center">
+          <div className="py-4 sm:py-0 flex flex-col items-center sm:pl-4">
             <Heart className="w-5 h-5 text-[#9B2226] mb-1" />
-            <p className="text-4xl font-bold text-[#9B2226] mb-2 tracking-tighter">
+            <p className="text-3xl md:text-4xl font-bold text-[#9B2226] mb-2 tracking-tighter">
               ₹{publicStats?.totalDonations ? (publicStats.totalDonations / 1000).toFixed(1) + 'K' : '150K'}
             </p>
             <p className="text-xs font-sans font-bold uppercase tracking-widest text-gray-500">Total Devotion Funds</p>
           </div>
-          <div className="px-8 flex flex-col items-center">
+          <div className="py-4 sm:py-0 flex flex-col items-center sm:pl-4">
             <ShieldCheck className="w-5 h-5 text-[#9B2226] mb-1" />
-            <p className="text-4xl font-bold text-[#9B2226] mb-2 tracking-tighter">100%</p>
+            <p className="text-3xl md:text-4xl font-bold text-[#9B2226] mb-2 tracking-tighter">100%</p>
             <p className="text-xs font-sans font-bold uppercase tracking-widest text-gray-500">Audited Ledger</p>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about-section" className="py-32 bg-[#F7F1E5] relative overflow-hidden">
+      <section id="about-section" className="py-20 md:py-32 bg-[#F7F1E5] relative overflow-hidden">
         <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-4 border-[#FFF]"
+              className="relative aspect-[4/3] sm:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-4 border-[#FFF] w-full max-w-lg mx-auto lg:max-w-none"
             >
               <img 
                 src={heritageImage} 
@@ -338,28 +339,28 @@ export function Home() {
               </div>
             </motion.div>
             
-            <div>
-              <div className="flex items-center gap-4 mb-8">
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
                 <div className="h-px w-16 bg-[#C09B6A]" />
                 <span className="text-[#C09B6A] font-bold font-sans uppercase tracking-[0.3em] text-xs">Our Heritage</span>
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold italic tracking-tight text-[#3E2723] mb-8 leading-tight">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold italic tracking-tight text-[#3E2723] leading-tight">
                 A Legacy of Devotion and Spirituality
               </h2>
-              <p className="text-xl text-[#6B4E31] font-serif mb-8 leading-relaxed">
+              <p className="text-base sm:text-xl text-[#6B4E31] font-serif leading-relaxed">
                 Founded over four decades ago, Sri Durga Mata Temple stands as a beacon of faith and cultural preservation. Our temple is not just a place of worship, but a vibrant enterprise of community service, dedicated to spiritual growth and the celebration of Sanatana Dharma.
               </p>
-              <p className="text-lg text-gray-600 mb-10 leading-relaxed">
+              <p className="text-sm sm:text-lg text-gray-600 leading-relaxed">
                 From daily rituals performed with strict adherence to Vedic traditions, to grand festivals that bring thousands together, every aspect of the mandir is designed to elevate the soul and connect devotees with the divine mother. Our transparent management ensures every offering serves the community.
               </p>
-              <div className="flex gap-4">
-                <Link to="/history">
-                  <Button variant="outline" size="lg" className="border-[#9B2226] text-[#9B2226] hover:bg-[#9B2226] hover:text-white rounded-full px-8">
+              <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                <Link to="/history" className="w-full sm:w-auto">
+                  <Button variant="outline" size="lg" className="w-full border-[#9B2226] text-[#9B2226] hover:bg-[#9B2226] hover:text-white rounded-full px-8">
                     Read Our Full History
                   </Button>
                 </Link>
-                <Link to="/committee">
-                  <Button variant="ghost" size="lg" className="text-[#6B4E31] hover:bg-[#EEDCC1]/50 rounded-full px-8">
+                <Link to="/committee" className="w-full sm:w-auto">
+                  <Button variant="ghost" size="lg" className="w-full text-[#6B4E31] hover:bg-[#EEDCC1]/50 rounded-full px-8">
                     Meet the Committee
                   </Button>
                 </Link>
@@ -370,16 +371,16 @@ export function Home() {
       </section>
 
       {/* Services/Offerings */}
-      <section className="py-32 bg-white border-t border-[#EEDCC1] relative">
+      <section className="py-20 md:py-32 bg-white border-t border-[#EEDCC1] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
            <div className="flex justify-center items-center gap-4 mb-4">
              <div className="h-px w-12 bg-[#C09B6A]" />
              <span className="text-[#C09B6A] font-bold font-sans uppercase tracking-[0.3em] text-xs">Seva & Offerings</span>
              <div className="h-px w-12 bg-[#C09B6A]" />
            </div>
-           <h2 className="text-4xl md:text-5xl font-bold italic tracking-tight text-[#3E2723] mb-20">Temple Services</h2>
+           <h2 className="text-3xl md:text-5xl font-bold italic tracking-tight text-[#3E2723] mb-12 md:mb-20">Temple Services</h2>
            
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
               {[
                 { title: 'Seva Contributions', desc: 'Sponsor daily rituals, abhishekams, and archana services at the mandir.', icon: Flame },
                 { title: 'Annadanam', desc: 'Contribute to daily free meals for devotees and the underprivileged.', icon: Heart },
@@ -388,19 +389,21 @@ export function Home() {
               ].map((service, i) => {
                 const Icon = service.icon || Heart;
                 return (
-                <div key={i} className="p-10 rounded-3xl bg-[#FDFBF7] border border-[#EEDCC1] hover:shadow-2xl hover:border-[#C09B6A]/50 transition-all duration-300 group hover:-translate-y-2">
-                  <div className="w-20 h-20 mx-auto bg-[#FFF] rounded-2xl flex items-center justify-center mb-8 shadow-md border border-[#EEDCC1] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 group-hover:border-[#C09B6A]">
-                    <Icon className="w-8 h-8 text-[#9B2226]" />
+                <div key={i} className="p-6 md:p-10 rounded-3xl bg-[#FDFBF7] border border-[#EEDCC1] hover:shadow-2xl hover:border-[#C09B6A]/50 transition-all duration-300 group hover:-translate-y-2 flex flex-col justify-between">
+                  <div>
+                    <div className="w-16 h-16 md:w-20 md:h-20 mx-auto bg-[#FFF] rounded-2xl flex items-center justify-center mb-6 md:mb-8 shadow-md border border-[#EEDCC1] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 group-hover:border-[#C09B6A]">
+                      <Icon className="w-6 h-6 md:w-8 md:h-8 text-[#9B2226]" />
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold italic text-[#3E2723] mb-3 md:mb-4 tracking-tight">{service.title}</h3>
+                    <p className="text-gray-600 text-xs md:text-sm leading-relaxed mb-6 font-sans">{service.desc}</p>
                   </div>
-                  <h3 className="text-2xl font-bold italic text-[#3E2723] mb-4 tracking-tight">{service.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-6 font-sans">{service.desc}</p>
                 </div>
               )})}
            </div>
            
-           <div className="mt-20 text-center">
+           <div className="mt-12 md:mt-20 text-center">
              <Link to="/donate">
-               <Button size="lg" className="bg-[#9B2226] hover:bg-[#7a181b] text-white px-12 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all hover:scale-105 group">
+               <Button size="lg" className="bg-[#9B2226] hover:bg-[#7a181b] text-white px-10 md:px-12 py-5 md:py-6 text-base md:text-lg rounded-full shadow-xl hover:shadow-2xl transition-all hover:scale-105 group w-full sm:w-auto">
                  <Heart className="w-5 h-5 mr-3 group-hover:animate-pulse" />
                  Make a Secure Donation
                </Button>

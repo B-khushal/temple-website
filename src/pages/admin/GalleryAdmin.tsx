@@ -169,7 +169,8 @@ export function GalleryAdmin() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left font-sans text-xs">
+            {/* Desktop Table View */}
+            <table className="w-full text-left font-sans text-xs hidden md:table">
               <thead className="bg-gray-50 text-gray-400 uppercase tracking-tighter border-b border-gray-100">
                 <tr>
                   <th className="px-6 py-3 font-bold">Thumbnail</th>
@@ -204,8 +205,8 @@ export function GalleryAdmin() {
                     <td className="px-6 py-3 font-mono">{item.order}</td>
                     <td className="px-6 py-3 text-right">
                       <div className="flex gap-2 justify-end">
-                        <button onClick={() => handleOpenEdit(item)} className="text-gray-500 hover:text-gray-700 bg-transparent border-0"><Edit2 className="w-4 h-4" /></button>
-                        <button onClick={() => handleDelete(item._id)} className="text-red-500 hover:text-red-700 bg-transparent border-0"><Trash2 className="w-4 h-4" /></button>
+                        <button onClick={() => handleOpenEdit(item)} className="text-gray-500 hover:text-gray-700 bg-transparent border-0 cursor-pointer" title="Edit"><Edit2 className="w-4 h-4" /></button>
+                        <button onClick={() => handleDelete(item._id)} className="text-red-500 hover:text-red-700 bg-transparent border-0 cursor-pointer" title="Delete"><Trash2 className="w-4 h-4" /></button>
                       </div>
                     </td>
                   </tr>
@@ -220,6 +221,41 @@ export function GalleryAdmin() {
                 )}
               </tbody>
             </table>
+
+            {/* Mobile Card List Fallback */}
+            <div className="block md:hidden divide-y divide-gray-100 p-4 space-y-4 font-sans text-xs">
+              {filteredItems.map(item => (
+                <div key={item._id} className="pt-4 first:pt-0 space-y-3">
+                  <div className="flex gap-4 items-start">
+                    <img 
+                      src={item.thumbnailUrl || item.url} 
+                      alt="thumbnail" 
+                      className="w-14 h-14 object-cover rounded-lg border border-gray-100 bg-gray-50 flex-shrink-0"
+                    />
+                    <div className="flex-grow space-y-1">
+                      <h4 className="font-bold text-gray-800 text-xs leading-tight">{item.title}</h4>
+                      <div className="text-gray-500 text-[10px] space-y-0.5">
+                        <div className="flex items-center gap-1">
+                          {item.type === 'video' ? <Film className="w-3.5 h-3.5 text-[#9B2226]" /> : <Image className="w-3.5 h-3.5 text-blue-600" />}
+                          <span className="capitalize">{item.type}</span>
+                        </div>
+                        <div>Album: <span className="font-bold text-gray-700">{item.album}</span> ({item.category})</div>
+                        <div>Order: <span className="font-mono text-gray-700">{item.order}</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-end gap-3 pt-1 border-t border-dashed border-gray-100">
+                    <button onClick={() => handleOpenEdit(item)} className="text-gray-500 hover:text-gray-700 p-1.5 rounded bg-gray-50 flex items-center justify-center cursor-pointer border-0 bg-transparent" title="Edit"><Edit2 className="w-3.5 h-3.5" /></button>
+                    <button onClick={() => handleDelete(item._id)} className="text-red-500 hover:text-red-700 p-1.5 rounded bg-red-50/50 flex items-center justify-center cursor-pointer border-0 bg-transparent" title="Delete"><Trash2 className="w-3.5 h-3.5" /></button>
+                  </div>
+                </div>
+              ))}
+              {filteredItems.length === 0 && (
+                <div className="text-center text-gray-400 py-8 italic font-sans text-xs">
+                  No media found.
+                </div>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Facebook, Youtube, Instagram, Mail, Phone, MapPin, ChevronDown, ChevronUp, LogOut } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { DivineIntro } from '../ui/DivineIntro';
+import { useAuth } from '../../lib/api';
 
 export function PublicLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openSection, setOpenSection] = useState<string | null>(null);
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   // Control if the intro overlay should play
   const [showIntro, setShowIntro] = useState(() => {
@@ -17,6 +20,18 @@ export function PublicLayout() {
     const played = sessionStorage.getItem('durgaIntroPlayed');
     return !played;
   });
+
+  // Lock scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -29,6 +44,10 @@ export function PublicLayout() {
     { name: 'Contact', path: '/contact' },
   ];
 
+  const toggleSection = (section: string) => {
+    setOpenSection(openSection === section ? null : section);
+  };
+
   // Return ONLY the intro overlay while active to prevent DOM clutter and header leakage
   if (showIntro) {
     return <DivineIntro onComplete={() => setShowIntro(false)} />;
@@ -37,15 +56,15 @@ export function PublicLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-[#FDFBF7] text-[#3E2723] font-serif animate-[revealUp_1.5s_cubic-bezier(0.16,1,0.3,1)_both]">
       {/* Main Navbar */}
-      <header className="h-20 flex items-center justify-between px-4 md:px-8 border-b-2 bg-[#9B2226] border-[#CFB53B] z-50 sticky top-0">
-        <Link to="/" className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'conic-gradient(#FF8C00, #F9A825, #FF8C00)', border: '2px solid #CFB53B' }}>
-            <span className="text-white font-bold text-2xl">ॐ</span>
+      <header className="h-20 flex items-center justify-between px-3 sm:px-6 md:px-8 border-b-2 bg-[#9B2226]/95 backdrop-blur-md border-[#CFB53B] z-50 sticky top-0 shadow-md">
+        <Link to="/" className="flex items-center gap-2 sm:gap-4 max-w-[75%] sm:max-w-none">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'conic-gradient(#FF8C00, #F9A825, #FF8C00)', border: '2px solid #CFB53B' }}>
+            <span className="text-white font-bold text-lg sm:text-2xl">ॐ</span>
           </div>
-          <div className="flex flex-col">
-            <h1 className="text-xl font-bold uppercase tracking-widest text-white leading-none mb-1">Sri Durga Mata Temple</h1>
-            <h2 className="text-sm font-bold text-[#F9A825] leading-none mb-1">శ్రీ శ్రీ శ్రీ దుర్గామాత నల్లపోచమ్మ దేవాలయం.</h2>
-            <span className="text-[10px] text-orange-200 tracking-[0.2em] uppercase font-sans">Spiritual Heritage & Management</span>
+          <div className="flex flex-col min-w-0">
+            <h1 className="text-sm sm:text-base md:text-xl font-bold uppercase tracking-widest text-white leading-none mb-1 truncate">Sri Durga Mata Temple</h1>
+            <h2 className="text-[10px] sm:text-xs font-bold text-[#F9A825] leading-none mb-1 truncate hidden sm:block">శ్రీ శ్రీ శ్రీ దుర్గామాత నల్లపోచమ్మ దేవాలయం.</h2>
+            <span className="text-[8px] sm:text-[9px] md:text-[10px] text-orange-200 tracking-[0.15em] sm:tracking-[0.2em] uppercase font-sans truncate">Spiritual Heritage & Management</span>
           </div>
         </Link>
 
@@ -56,47 +75,117 @@ export function PublicLayout() {
               key={link.name}
               to={link.path}
               className={cn(
-                "hover:text-white transition-colors",
-                location.pathname === link.path && "text-[#F9A825] border-b border-[#F9A825] pb-0.5"
+                "hover:text-white transition-colors duration-200 relative py-1",
+                location.pathname === link.path ? "text-[#F9A825] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#F9A825]" : "text-white/80 hover:text-white"
               )}
             >
               {link.name}
             </Link>
           ))}
-          <Link to="/admin" className="ml-4 pl-4 border-l border-white/20 hover:text-white text-[#F9A825]">Portal</Link>
+          <Link to="/admin" className="ml-4 pl-4 border-l border-white/20 hover:text-white text-[#F9A825] transition-colors duration-200">Portal</Link>
         </nav>
 
         {/* Mobile Menu Button */}
         <div className="xl:hidden flex items-center">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-white hover:text-orange-200"
+            className="text-white hover:text-orange-200 p-2 rounded-lg transition-colors focus:outline-none"
+            aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMobileMenuOpen ? <X className="w-6 h-6 animate-[spin_0.2s_ease-out]" /> : <Menu className="w-6 h-6 animate-[fadeIn_0.2s_ease-out]" />}
           </button>
         </div>
       </header>
 
-      {/* Mobile Nav */}
-      {isMobileMenuOpen && (
-        <div className="xl:hidden bg-[#FFF9F0] border-b border-[#EEDCC1] px-4 pt-2 pb-4 shadow-lg absolute w-full z-40 top-20 font-sans h-[calc(100vh-5rem)] overflow-y-auto">
-          <div className="grid grid-cols-2 gap-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className="block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-widest text-[#3E2723] hover:bg-[#F7F1E5] hover:text-[#9B2226]"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.name}
-              </Link>
-            ))}
+      {/* Mobile Drawer (Drawer Layout with smooth slide-in from right) */}
+      <div 
+        className={cn(
+          "fixed inset-0 z-40 xl:hidden transition-all duration-300 ease-in-out pointer-events-none",
+          isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0"
+        )}
+      >
+        {/* Backdrop overlay */}
+        <div 
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-300"
+        />
+
+        {/* Sliding Menu Panel */}
+        <div 
+          className={cn(
+            "absolute top-0 right-0 h-full w-[280px] max-w-[85vw] bg-[#FFF9F0] border-l border-[#EEDCC1] shadow-2xl p-6 flex flex-col transition-transform duration-300 ease-out font-sans",
+            isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          )}
+        >
+          {/* Header in drawer */}
+          <div className="flex justify-between items-center pb-4 border-b border-[#EEDCC1] mb-6">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">ॐ</span>
+              <span className="font-serif font-bold text-sm text-[#9B2226] tracking-wider uppercase">Menu Navigation</span>
+            </div>
+            <button 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className="text-gray-400 hover:text-[#9B2226] p-1 rounded-full hover:bg-gray-100"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
-          <div className="mt-4 px-3 border-t border-[#EEDCC1] pt-4 pb-12">
-             <Link to="/admin" className="text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-[#9B2226]">Admin Login</Link>
+
+           {/* Links list */}
+          <div className="flex-1 overflow-y-auto space-y-2 pr-2">
+            {navLinks.map((link) => {
+              const isActive = location.pathname === link.path;
+              return (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={cn(
+                    "block px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200",
+                    isActive 
+                      ? "bg-[#9B2226] text-white shadow-md shadow-[#9B2226]/10" 
+                      : "text-[#3E2723] hover:bg-[#F7F1E5] hover:text-[#9B2226]"
+                  )}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
+
+            {/* Portal Login Link directly in the list for mobile display guarantee */}
+            <div className="pt-4 border-t border-[#EEDCC1]/40 mt-4">
+              {user ? (
+                <div className="space-y-2">
+                  <Link 
+                    to="/admin" 
+                    className="flex items-center justify-center gap-2 w-full py-3 bg-[#9B2226] hover:bg-[#7a181b] text-white text-xs font-bold uppercase tracking-widest rounded-xl shadow-lg transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Admin Dashboard
+                  </Link>
+                  <button 
+                    onClick={async () => {
+                      await logout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center justify-center gap-2 w-full py-2.5 bg-gray-100 hover:bg-red-50 hover:text-red-700 text-gray-700 text-xs font-bold uppercase tracking-widest rounded-xl transition-colors cursor-pointer border-0"
+                  >
+                    <LogOut className="w-4 h-4" /> Log Out Portal
+                  </button>
+                </div>
+              ) : (
+                <Link 
+                  to="/admin" 
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-[#9B2226] hover:bg-[#7a181b] text-white text-xs font-bold uppercase tracking-widest rounded-xl shadow-lg transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Admin Portal Login
+                </Link>
+              )}
+            </div>
           </div>
         </div>
-      )}
+      </div>
 
       {/* Main Content */}
       <main className="flex-grow flex flex-col">
@@ -104,23 +193,131 @@ export function PublicLayout() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t bg-white border-[#EEDCC1] py-12 px-6 md:px-12 font-sans">
-        <div className="max-w-6xl mx-auto space-y-8">
-          {/* Info Block */}
-          <div className="text-center space-y-3">
-            <h3 className="text-base font-bold text-[#9B2226] font-serif italic tracking-wide">
-              SRI DURGA MATA TEMPLE
-            </h3>
-            <h4 className="text-sm font-bold text-gray-700 font-sans tracking-wide">
-              శ్రీ శ్రీ శ్రీ దుర్గామాత నల్లపోచమ్మ దేవాలయం, బాపూనగర్.
-            </h4>
-            <p className="text-xs text-gray-500 uppercase tracking-widest leading-relaxed">
-              Bapu Nagar, Hyderabad, Telangana, India.
-            </p>
+      <footer className="border-t bg-white border-[#EEDCC1] py-12 px-4 sm:px-6 md:px-12 font-sans">
+        <div className="max-w-6xl mx-auto space-y-10">
+          
+          {/* Multi-Column Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            
+            {/* Column 1: Info and Socials (4 Cols) */}
+            <div className="md:col-span-4 space-y-4">
+              <div className="space-y-2">
+                <h3 className="text-base font-bold text-[#9B2226] font-serif italic tracking-wide">
+                  SRI DURGA MATA TEMPLE
+                </h3>
+                <h4 className="text-xs font-bold text-gray-700 font-sans tracking-wide">
+                  శ్రీ శ్రీ శ్రీ దుర్గామాత నల్లపోచమ్మ దేవాలయం, బాపూనగర్.
+                </h4>
+                <p className="text-xs text-gray-500 uppercase tracking-widest leading-relaxed">
+                  Bapu Nagar, Hyderabad, Telangana, India.
+                </p>
+              </div>
+
+              {/* Social Media Link Icons */}
+              <div className="flex gap-3 pt-2">
+                <a 
+                  href="https://facebook.com" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="w-8 h-8 rounded-full bg-[#F7F1E5] flex items-center justify-center text-[#9B2226] hover:bg-[#9B2226] hover:text-white transition-all duration-300 hover:scale-105"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="w-4 h-4" />
+                </a>
+                <a 
+                  href="https://youtube.com" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="w-8 h-8 rounded-full bg-[#F7F1E5] flex items-center justify-center text-[#9B2226] hover:bg-[#9B2226] hover:text-white transition-all duration-300 hover:scale-105"
+                  aria-label="YouTube"
+                >
+                  <Youtube className="w-4 h-4" />
+                </a>
+                <a 
+                  href="https://instagram.com" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="w-8 h-8 rounded-full bg-[#F7F1E5] flex items-center justify-center text-[#9B2226] hover:bg-[#9B2226] hover:text-white transition-all duration-300 hover:scale-105"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+
+            {/* Column 2: Quick Links (3 Cols) */}
+            <div className="md:col-span-3 border-t md:border-t-0 border-gray-100 pt-4 md:pt-0">
+              {/* Accordion header on mobile, standard label on desktop */}
+              <button 
+                onClick={() => toggleSection('links')}
+                className="w-full md:pointer-events-none flex justify-between items-center text-left focus:outline-none"
+              >
+                <h4 className="text-xs font-bold uppercase tracking-widest text-[#9B2226]">Quick Links</h4>
+                <div className="md:hidden text-gray-500">
+                  {openSection === 'links' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </div>
+              </button>
+
+              {/* Accordion body links */}
+              <div 
+                className={cn(
+                  "mt-3 md:block space-y-2 text-xs",
+                  openSection === 'links' ? "block" : "hidden"
+                )}
+              >
+                {navLinks.map((link) => (
+                  <Link 
+                    key={link.name} 
+                    to={link.path} 
+                    className="block text-gray-600 hover:text-[#9B2226] py-1 transition-colors font-medium"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Column 3: Contact & Timings (5 Cols) */}
+            <div className="md:col-span-5 border-t md:border-t-0 border-gray-100 pt-4 md:pt-0">
+              <button 
+                onClick={() => toggleSection('contact')}
+                className="w-full md:pointer-events-none flex justify-between items-center text-left focus:outline-none"
+              >
+                <h4 className="text-xs font-bold uppercase tracking-widest text-[#9B2226]">Office Details & Hours</h4>
+                <div className="md:hidden text-gray-500">
+                  {openSection === 'contact' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </div>
+              </button>
+
+              <div 
+                className={cn(
+                  "mt-3 md:block space-y-3 text-xs text-gray-600 font-medium",
+                  openSection === 'contact' ? "block" : "hidden"
+                )}
+              >
+                <div className="flex gap-2.5 items-start">
+                  <MapPin className="w-4 h-4 text-[#9B2226] flex-shrink-0 mt-0.5" />
+                  <span>Bapu Nagar, Hyderabad, Telangana, India.</span>
+                </div>
+                <div className="flex gap-2.5 items-start">
+                  <Phone className="w-4 h-4 text-[#9B2226] flex-shrink-0 mt-0.5" />
+                  <a href="tel:+919999999999" className="hover:text-[#9B2226]">+91 99999 99999</a>
+                </div>
+                <div className="flex gap-2.5 items-start">
+                  <Mail className="w-4 h-4 text-[#9B2226] flex-shrink-0 mt-0.5" />
+                  <a href="mailto:info@sridurgamatatemple.org" className="hover:text-[#9B2226]">info@sridurgamatatemple.org</a>
+                </div>
+                <div className="pt-1 border-t border-dashed border-[#EEDCC1] mt-2">
+                  <span className="font-bold text-[#3E2723] block mb-0.5">Darshan Timings:</span>
+                  <span>Daily: 8:00 AM – 12:00 PM & 5:00 PM – 8:30 PM</span>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           {/* Large Map Embed Block */}
-          <div className="w-full h-64 md:h-96 rounded-3xl overflow-hidden shadow-lg border border-[#EEDCC1] bg-gray-50">
+          <div className="w-full h-64 sm:h-80 md:h-96 rounded-3xl overflow-hidden shadow-lg border border-[#EEDCC1] bg-gray-50">
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12791.892740505104!2d78.40184926986693!3d17.37242918039498!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb9657383c2d23%3A0xf7077772fdd642af!2sSri%20Durga%20Mata%20Nalla%20Pochamma%20Devalayamu!5e1!3m2!1sen!2sin!4v1782738093112!5m2!1sen!2sin" 
               width="100%" 
@@ -134,7 +331,7 @@ export function PublicLayout() {
           </div>
 
           {/* Copyright */}
-          <div className="text-center text-[10px] text-gray-400 uppercase tracking-widest pt-4 border-t border-gray-100">
+          <div className="text-center text-[10px] text-gray-400 uppercase tracking-widest pt-6 border-t border-gray-100">
             &copy; {new Date().getFullYear()} Temple Management Board. All Rights Reserved.
           </div>
         </div>
@@ -153,6 +350,13 @@ export function PublicLayout() {
             transform: translateY(0);
             filter: blur(0);
           }
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
       `}</style>
     </div>

@@ -223,7 +223,8 @@ export function ReportsAdmin() {
             </button>
           </CardHeader>
           <CardContent className="p-0 max-h-[300px] overflow-y-auto">
-            <table className="w-full text-left text-[11px] font-sans whitespace-nowrap">
+            {/* Desktop Table View */}
+            <table className="w-full text-left text-[11px] font-sans whitespace-nowrap hidden md:table">
               <thead className="bg-gray-50 text-gray-400 font-bold border-b sticky top-0">
                 <tr>
                   <th className="px-4 py-2.5">Timestamp</th>
@@ -243,6 +244,20 @@ export function ReportsAdmin() {
                 ))}
               </tbody>
             </table>
+
+            {/* Mobile Card List Fallback */}
+            <div className="block md:hidden divide-y divide-gray-100 p-4 space-y-3 font-sans text-xs">
+              {auditLogs.slice(0,25).map((log, idx) => (
+                <div key={idx} className="pt-3 first:pt-0 space-y-1">
+                  <div className="flex justify-between items-start">
+                    <span className="px-2 py-0.5 rounded bg-orange-50 text-orange-800 border border-orange-100 font-mono font-bold text-[9px]">{log.action}</span>
+                    <span className="text-[9px] text-gray-400">{new Date(log.timestamp).toLocaleString()}</span>
+                  </div>
+                  <div className="text-gray-800 font-bold leading-tight">{log.user?.name || 'System / Public'}</div>
+                  <div className="text-gray-500 font-mono text-[9px]">IP: {log.ip} | Email: {log.user?.email || 'N/A'}</div>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
       )}

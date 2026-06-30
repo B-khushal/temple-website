@@ -171,7 +171,8 @@ export function Donations() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs whitespace-nowrap font-sans">
+            {/* Desktop Table View */}
+            <table className="w-full text-left text-xs whitespace-nowrap font-sans hidden md:table">
               <thead className="bg-gray-50 text-gray-500 font-bold border-b border-gray-200 uppercase tracking-tighter">
                 <tr>
                   <th className="px-6 py-4">Receipt Code</th>
@@ -214,34 +215,36 @@ export function Donations() {
                         {d.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-center flex items-center justify-center gap-2">
-                      <a
-                        href={`/api/donations/${d._id}/receipt`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="p-1 text-[#9B2226] hover:bg-red-50 rounded"
-                        title="Download PDF Receipt"
-                      >
-                        <FileText className="w-4 h-4" />
-                      </a>
-                      
-                      {d.status === 'Pending' && (
-                        <button
-                          onClick={() => handleVerifyStatus(d._id)}
-                          className="p-1 text-green-600 hover:bg-green-50 rounded"
-                          title="Verify Payment"
+                    <td className="px-6 py-4 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <a
+                          href={`/api/donations/${d._id}/receipt`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="p-1 text-[#9B2226] hover:bg-red-50 rounded"
+                          title="Download PDF Receipt"
                         >
-                          <Check className="w-4 h-4" />
-                        </button>
-                      )}
+                          <FileText className="w-4 h-4" />
+                        </a>
+                        
+                        {d.status === 'Pending' && (
+                          <button
+                            onClick={() => handleVerifyStatus(d._id)}
+                            className="p-1 text-green-600 hover:bg-green-50 rounded cursor-pointer border-0 bg-transparent"
+                            title="Verify Payment"
+                          >
+                            <Check className="w-4 h-4" />
+                          </button>
+                        )}
 
-                      <button
-                        onClick={() => handleDeleteDonation(d._id)}
-                        className="p-1 text-red-600 hover:bg-red-50 rounded"
-                        title="Delete record"
-                      >
-                        <Trash className="w-4 h-4" />
-                      </button>
+                        <button
+                          onClick={() => handleDeleteDonation(d._id)}
+                          className="p-1 text-red-600 hover:bg-red-50 rounded cursor-pointer border-0 bg-transparent"
+                          title="Delete record"
+                        >
+                          <Trash className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -254,6 +257,72 @@ export function Donations() {
                 )}
               </tbody>
             </table>
+
+            {/* Mobile Cards List Fallback */}
+            <div className="block md:hidden divide-y divide-gray-100 p-4 space-y-4">
+              {loading ? (
+                <div className="text-center py-6 text-gray-500 font-sans">
+                  Loading donation entries...
+                </div>
+              ) : Array.isArray(donations) && donations.map((d) => (
+                <div key={d._id} className="pt-4 first:pt-0 space-y-2 font-sans text-xs">
+                  <div className="flex justify-between items-start">
+                    <span className="font-bold text-gray-900 text-xs">
+                      {d.donorName}
+                      {!d.isPublic && <span className="ml-2 text-[8px] font-bold text-gray-400 bg-gray-100 px-1 py-0.5 rounded">PRIVATE</span>}
+                    </span>
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                      d.status === 'Verified' ? 'bg-green-50 text-green-700' : 'bg-orange-50 text-orange-700'
+                    }`}>
+                      {d.status}
+                    </span>
+                  </div>
+                  <div className="text-gray-500 text-[10px] space-y-0.5 leading-tight font-mono">
+                    <div>Receipt: <span className="text-gray-700">{d.receiptNumber}</span></div>
+                    <div>Date: <span className="text-gray-700 font-sans">{new Date(d.date).toLocaleDateString()}</span></div>
+                    <div>Purpose: <span className="text-gray-700 font-sans">{d.purpose}</span></div>
+                    <div>Method: <span className="text-gray-700 font-sans">{d.type} ({d.paymentMethod})</span></div>
+                  </div>
+                  <div className="flex justify-between items-center pt-2 border-t border-dashed border-gray-100 font-sans">
+                    <span className="font-serif italic font-bold text-xs text-[#9B2226]">
+                      {d.type === 'Monetary' ? `₹${d.amount.toLocaleString()}` : d.itemDetails || 'In-Kind'}
+                    </span>
+                    <div className="flex gap-2">
+                      <a
+                        href={`/api/donations/${d._id}/receipt`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="p-1.5 text-[#9B2226] hover:bg-red-50 rounded bg-gray-50 flex items-center justify-center"
+                        title="Download Receipt"
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                      </a>
+                      {d.status === 'Pending' && (
+                        <button
+                          onClick={() => handleVerifyStatus(d._id)}
+                          className="p-1.5 text-green-600 hover:bg-green-50 rounded bg-green-50/50 border-0 flex items-center justify-center cursor-pointer"
+                          title="Verify Payment"
+                        >
+                          <Check className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleDeleteDonation(d._id)}
+                        className="p-1.5 text-red-600 hover:bg-red-50 rounded bg-red-50/50 border-0 flex items-center justify-center cursor-pointer"
+                        title="Delete record"
+                      >
+                        <Trash className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {(!loading && (!Array.isArray(donations) || donations.length === 0)) && (
+                <div className="text-center text-gray-400 py-8 font-sans text-xs">
+                  No records found matching filters.
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Pagination */}

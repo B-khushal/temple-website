@@ -256,11 +256,11 @@ export function Events() {
                     placeholder="Devotee Name" 
                     value={rsvpName} 
                     onChange={e => setRsvpName(e.target.value)} 
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50/50" 
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-sm outline-none focus:border-[#9B2226] focus:ring-1 focus:ring-[#9B2226] transition-all" 
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="font-bold text-gray-700">Phone Number *</label>
                     <input 
@@ -269,7 +269,7 @@ export function Events() {
                       placeholder="10 digit phone" 
                       value={rsvpPhone} 
                       onChange={e => setRsvpPhone(e.target.value)} 
-                      className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50/50" 
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-sm outline-none focus:border-[#9B2226] focus:ring-1 focus:ring-[#9B2226] transition-all" 
                     />
                   </div>
                   <div className="space-y-1">
@@ -280,7 +280,7 @@ export function Events() {
                       placeholder="email@example.com" 
                       value={rsvpEmail} 
                       onChange={e => setRsvpEmail(e.target.value)} 
-                      className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50/50" 
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-sm outline-none focus:border-[#9B2226] focus:ring-1 focus:ring-[#9B2226] transition-all" 
                     />
                   </div>
                 </div>
@@ -291,7 +291,7 @@ export function Events() {
                     <select 
                       value={rsvpGuests} 
                       onChange={e => setRsvpGuests(e.target.value)} 
-                      className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50/50"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-sm outline-none cursor-pointer"
                     >
                       <option>1</option>
                       <option>2</option>
@@ -306,7 +306,7 @@ export function Events() {
                     <select 
                       value={rsvpStatus} 
                       onChange={e => setRsvpStatus(e.target.value)} 
-                      className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50/50"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-sm outline-none cursor-pointer"
                     >
                       <option value="Attending">Attending</option>
                       <option value="Maybe">Maybe</option>
@@ -319,14 +319,14 @@ export function Events() {
                     type="button" 
                     variant="outline" 
                     onClick={() => setRsvpEvent(null)}
-                    className="rounded-lg"
+                    className="rounded-xl px-6 py-2.5"
                   >
                     Cancel
                   </Button>
                   <Button 
                     type="submit" 
                     disabled={rsvpLoading}
-                    className="bg-[#9B2226] text-white hover:bg-[#7a181b] rounded-lg"
+                    className="bg-[#9B2226] text-white hover:bg-[#7a181b] rounded-xl px-6 py-2.5"
                   >
                     {rsvpLoading ? 'Registering...' : 'Submit RSVP'}
                   </Button>

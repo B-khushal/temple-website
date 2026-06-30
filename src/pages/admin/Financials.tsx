@@ -169,7 +169,8 @@ export function Financials() {
           </div>
           
           <div className="overflow-x-auto font-sans text-xs">
-            <table className="w-full text-left whitespace-nowrap">
+            {/* Desktop Table View */}
+            <table className="w-full text-left whitespace-nowrap hidden md:table">
               <thead className="bg-gray-50 text-gray-500 font-bold border-b border-gray-200 uppercase tracking-tighter">
                 <tr>
                   <th className="px-6 py-4">Date</th>
@@ -206,13 +207,15 @@ export function Financials() {
                     }`}>
                       {txn.type === 'Income' ? '+' : '-'}₹{txn.amount.toLocaleString()}
                     </td>
-                    <td className="px-6 py-4 text-center flex items-center justify-center gap-2">
-                      <button onClick={() => handleEdit(txn)} className="p-1.5 text-gray-600 hover:bg-gray-100 rounded" title="Edit">
-                        <Edit2 className="w-4 h-4" />
-                      </button>
-                      <button onClick={() => handleDelete(txn._id)} className="p-1.5 text-red-600 hover:bg-red-50 rounded" title="Delete">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                    <td className="px-6 py-4 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <button onClick={() => handleEdit(txn)} className="p-1.5 text-gray-600 hover:bg-gray-100 rounded cursor-pointer border-0 bg-transparent" title="Edit">
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => handleDelete(txn._id)} className="p-1.5 text-red-600 hover:bg-red-50 rounded cursor-pointer border-0 bg-transparent" title="Delete">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -225,6 +228,47 @@ export function Financials() {
                 )}
               </tbody>
             </table>
+
+            {/* Mobile Cards List Fallback */}
+            <div className="block md:hidden divide-y divide-gray-100 p-4 space-y-4">
+              {loading ? (
+                <div className="text-center py-6 text-gray-500 font-sans">
+                  Loading ledger data...
+                </div>
+              ) : Array.isArray(transactions) && transactions.map((txn) => (
+                <div key={txn._id} className="pt-4 first:pt-0 space-y-2 font-sans">
+                  <div className="flex justify-between items-start">
+                    <span className="font-bold text-gray-900 text-xs">{txn.category}</span>
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full font-bold text-[9px] uppercase tracking-wider ${
+                      txn.type === 'Income' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+                    }`}>
+                      {txn.type}
+                    </span>
+                  </div>
+                  <div className="text-gray-500 text-[10px] space-y-0.5 font-mono leading-tight">
+                    <div>Date: <span className="text-gray-700 font-sans">{new Date(txn.date).toLocaleDateString()}</span></div>
+                    <div>Ref: <span className="text-gray-700">{txn.reference}</span></div>
+                    {txn.description && <div className="font-sans text-gray-600 italic mt-1 font-medium">"{txn.description}"</div>}
+                  </div>
+                  <div className="flex justify-between items-center pt-2 border-t border-dashed border-gray-100">
+                    <span className={`font-serif italic font-bold text-xs ${
+                      txn.type === 'Income' ? 'text-green-600' : 'text-red-600'
+                    }`}>
+                      {txn.type === 'Income' ? '+' : '-'}₹{txn.amount?.toLocaleString()}
+                    </span>
+                    <div className="flex gap-2">
+                      <button onClick={() => handleEdit(txn)} className="text-gray-500 hover:text-[#9B2226] p-1.5 rounded bg-gray-50 border-0 bg-transparent flex items-center justify-center cursor-pointer"><Edit2 className="w-3.5 h-3.5" /></button>
+                      <button onClick={() => handleDelete(txn._id)} className="text-red-500 hover:text-red-700 p-1.5 rounded bg-red-50/50 border-0 bg-transparent flex items-center justify-center cursor-pointer"><Trash2 className="w-3.5 h-3.5" /></button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {(!loading && (!Array.isArray(transactions) || transactions.length === 0)) && (
+                <div className="text-center text-gray-400 py-8 font-sans text-xs">
+                  No transactions found matching filters.
+                </div>
+              )}
+            </div>
           </div>
           
           {/* Pagination */}

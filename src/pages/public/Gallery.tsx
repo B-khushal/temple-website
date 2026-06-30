@@ -192,16 +192,20 @@ export function Gallery() {
       {/* Lightbox Modal */}
       {activeMedia && (
         <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 flex flex-col items-center justify-center p-4">
-          {/* Close button */}
-          <button
-            onClick={() => setActiveMedia(null)}
-            className="absolute top-4 right-4 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors cursor-pointer border-0"
-          >
-            <X className="w-6 h-6" />
-          </button>
+          {/* Top header overlay bar */}
+          <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center bg-gradient-to-b from-black/80 to-transparent z-10 font-sans text-xs">
+            <span className="text-[#CFB53B] uppercase tracking-widest font-bold font-sans">Darshan Viewer</span>
+            <button
+              onClick={() => setActiveMedia(null)}
+              className="p-3 bg-white/10 hover:bg-[#9B2226] text-white rounded-full transition-colors cursor-pointer border-0 flex items-center justify-center"
+              aria-label="Close viewer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
           {/* Media frame */}
-          <div className="max-w-4xl w-full max-h-[75vh] flex items-center justify-center overflow-hidden">
+          <div className="max-w-4xl w-full max-h-[70vh] flex items-center justify-center overflow-hidden mt-16 p-2">
             {activeMedia.type === 'video' ? (
               <iframe
                 src={activeMedia.url}
@@ -215,7 +219,7 @@ export function Gallery() {
               <img
                 src={activeMedia.url}
                 alt={activeMedia.title}
-                className="max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl border border-[#CFB53B]/20"
+                className="max-w-full max-h-[70vh] object-contain rounded-xl shadow-2xl border border-[#CFB53B]/20"
               />
             )}
           </div>
@@ -223,7 +227,7 @@ export function Gallery() {
           {/* Media Info Footer */}
           <div className="text-center mt-6 text-white max-w-lg space-y-1 px-4">
             <span className="text-[10px] font-sans uppercase font-bold text-[#CFB53B] tracking-widest">{activeMedia.album} / {activeMedia.category}</span>
-            <h3 className="text-lg font-serif italic">{activeMedia.title}</h3>
+            <h3 className="text-base sm:text-lg font-serif italic">{activeMedia.title}</h3>
           </div>
         </div>
       )}
