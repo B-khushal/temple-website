@@ -4,6 +4,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 let accessTokenMemory: string | null = localStorage.getItem('accessToken');
 let refreshTokenMemory: string | null = localStorage.getItem('refreshToken');
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+
 export const api = {
   setTokens(access: string, refresh: string) {
     accessTokenMemory = access;
@@ -34,7 +36,8 @@ export const api = {
       headers.set('Content-Type', 'application/json');
     }
 
-    const response = await fetch(url, { ...options, headers });
+    const targetUrl = url.startsWith('/api') ? `${API_BASE_URL}${url}` : url;
+    const response = await fetch(targetUrl, { ...options, headers });
 
     if (response.status === 401) {
       // Try to refresh
@@ -42,7 +45,7 @@ export const api = {
       if (refreshed) {
         // Retry original request
         headers.set('Authorization', `Bearer ${accessTokenMemory}`);
-        const retryResponse = await fetch(url, { ...options, headers });
+        const retryResponse = await fetch(targetUrl, { ...options, headers });
         return this.handleResponse(retryResponse);
       } else {
         this.clearTokens();
@@ -75,7 +78,7 @@ export const api = {
     if (!refreshTokenMemory) return false;
     
     try {
-      const res = await fetch('/api/auth/refresh', {
+      const res = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ refreshToken: refreshTokenMemory }),

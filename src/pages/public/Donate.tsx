@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Heart, CheckCircle, Download, CreditCard, Send, QrCode, Building, Landmark } from 'lucide-react';
+import { api } from '../../lib/api';
 
 export function Donate() {
   const [donorName, setDonorName] = useState('');
@@ -70,25 +71,20 @@ export function Donate() {
         if (estimatedValue) finalItemDetails += ` (Est. Value: ₹${estimatedValue})`;
       }
 
-      const response = await fetch('/api/donations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          donorName,
-          email,
-          phone,
-          type: donationType === 'Construction' || donationType === 'Community Service' ? 'Monetary' : donationType,
-          amount: donationType === 'Monetary' || donationType === 'Construction' || donationType === 'Community Service' ? Number(amount) : 0,
-          itemDetails: finalItemDetails,
-          purpose: donationType === 'Construction' ? 'Temple Construction' : donationType === 'Community Service' ? 'Annadanam' : purpose,
-          paymentMethod: donationType === 'Monetary' ? paymentMethod : 'In-Kind',
-          isPublic,
-          // simulated payment txn ref
-          status: donationType === 'Monetary' && paymentMethod !== 'Cash' ? 'Pending' : 'Verified',
-        }),
+      const result = await api.post('/api/donations', {
+        donorName,
+        email,
+        phone,
+        type: donationType === 'Construction' || donationType === 'Community Service' ? 'Monetary' : donationType,
+        amount: donationType === 'Monetary' || donationType === 'Construction' || donationType === 'Community Service' ? Number(amount) : 0,
+        itemDetails: finalItemDetails,
+        purpose: donationType === 'Construction' ? 'Temple Construction' : donationType === 'Community Service' ? 'Annadanam' : purpose,
+        paymentMethod: donationType === 'Monetary' ? paymentMethod : 'In-Kind',
+        isPublic,
+        // simulated payment txn ref
+        status: donationType === 'Monetary' && paymentMethod !== 'Cash' ? 'Pending' : 'Verified',
       });
 
-      const result = await response.json();
       if (result.success) {
         setSuccessData(result.data);
         setCheckoutStep(false);

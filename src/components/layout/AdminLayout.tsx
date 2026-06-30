@@ -17,7 +17,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
-import { useAuth } from '../../lib/api';
+import { useAuth, api } from '../../lib/api';
 
 export function AdminLayout() {
   const location = useLocation();
@@ -26,8 +26,7 @@ export function AdminLayout() {
   const [publicStats, setPublicStats] = React.useState<any>(null);
 
   React.useEffect(() => {
-    fetch('/api/settings/public-stats')
-      .then(res => res.json())
+    api.get('/api/settings/public-stats')
       .then(res => {
         if (res.success) {
           setPublicStats(res.data);

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import lottie from 'lottie-web';
 import desktopLottieData from '../../assets/Maa_Durga_eyes_shot_202606291655.json';
 import mobileLottieData from '../../assets/ai-artwork-video_334dd38e-8c51-4c59-8881-cedcd60b6584.json';
+import { api } from '../../lib/api';
 
 interface DivineIntroProps {
   forcePlay?: boolean;
@@ -83,8 +84,7 @@ export function DivineIntro({ forcePlay = false, onComplete }: DivineIntroProps)
 
     const loadIntroSettings = async () => {
       try {
-        const res = await fetch('/api/settings');
-        const result = await res.json();
+        const result = await api.get('/api/settings');
         if (result.success && result.data) {
           const settings = result.data;
           setDuration(settings.introDuration || 12);

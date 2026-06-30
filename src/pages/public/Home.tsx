@@ -6,6 +6,7 @@ import { Clock, MapPin, Calendar, Heart, Flame, Building2, Users, ArrowRight, Sh
 import { Link } from 'react-router-dom';
 import durgaIdolImage from '../../assets/ChatGPT Image Jun 29, 2026, 05_33_34 PM.png';
 import heritageImage from '../../assets/WhatsApp Image 2026-06-29 at 18.05.38.jpeg';
+import { api } from '../../lib/api';
 
 export function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -18,8 +19,7 @@ export function Home() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     
     // Fetch live MongoDB Atlas statistics
-    fetch('/api/settings/public-stats')
-      .then(res => res.json())
+    api.get('/api/settings/public-stats')
       .then(res => {
         if (res.success) {
           setPublicStats(res.data);

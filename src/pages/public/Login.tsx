@@ -45,12 +45,7 @@ export function Login() {
 
     try {
       if (!otpSent) {
-        const res = await fetch('/api/auth/forgot-password', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: forgotEmail }),
-        });
-        const data = await res.json();
+        const data = await api.post('/api/auth/forgot-password', { email: forgotEmail });
         if (data.success) {
           setOtpSent(true);
           setSuccessMsg('OTP code sent to email successfully.');
@@ -58,12 +53,7 @@ export function Login() {
           setError(data.message || 'Failed to send OTP');
         }
       } else {
-        const res = await fetch('/api/auth/reset-password', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: forgotEmail, otp, newPassword }),
-        });
-        const data = await res.json();
+        const data = await api.post('/api/auth/reset-password', { email: forgotEmail, otp, newPassword });
         if (data.success) {
           setSuccessMsg('Password reset successful. You can log in now.');
           setTimeout(() => {
@@ -73,11 +63,11 @@ export function Login() {
             setSuccessMsg('');
           }, 3000);
         } else {
-          setError(data.message || 'Reset failed');
+          setError(data.message || 'Failed to reset password');
         }
       }
     } catch (err: any) {
-      setError(err.message || 'Error occurred');
+      setError(err.message || 'An error occurred. Please try again.');
     } finally {
       setLoading(false);
     }

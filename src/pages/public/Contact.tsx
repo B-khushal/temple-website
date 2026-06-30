@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Globe } from 'lucide-react';
+import { api } from '../../lib/api';
 
 export function Contact() {
   const [name, setName] = useState('');
@@ -20,13 +21,7 @@ export function Contact() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, subject, message }),
-      });
-
-      const result = await response.json();
+      const result = await api.post('/api/contact', { name, email, phone, subject, message });
       if (result.success) {
         setSuccess(true);
         resetForm();
