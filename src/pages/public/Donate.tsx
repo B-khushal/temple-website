@@ -3,8 +3,10 @@ import { Card, CardContent } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Heart, CheckCircle, Download, CreditCard, Send, QrCode, Building, Landmark } from 'lucide-react';
 import { api } from '../../lib/api';
+import { useVisibility } from '../../lib/VisibilityContext';
 
 export function Donate() {
+  const { isSectionVisible } = useVisibility();
   const [donorName, setDonorName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -17,7 +19,16 @@ export function Donate() {
   const [estimatedValue, setEstimatedValue] = useState('');
 
   const [purpose, setPurpose] = useState('General Fund');
-  const [paymentMethod, setPaymentMethod] = useState('UPI');
+  
+  const allowedPaymentMethods = [
+    { value: 'UPI', label: 'UPI (QR Code Scan)', visible: isSectionVisible('donation_upi_enabled') },
+    { value: 'Bank Transfer', label: 'Bank Wire Transfer', visible: isSectionVisible('donation_bank_details_enabled') },
+    { value: 'Cash', label: 'Cash (At Mandir Counter)', visible: true },
+    { value: 'Cheque', label: 'Demand Draft / Cheque', visible: true },
+  ].filter(p => p.visible);
+
+  const defaultMethod = allowedPaymentMethods[0]?.value || 'Cash';
+  const [paymentMethod, setPaymentMethod] = useState(defaultMethod);
   const [isPublic, setIsPublic] = useState(true);
   
   // Checkout simulation step
@@ -113,6 +124,7 @@ export function Donate() {
     setCheckoutStep(false);
     setTxnRefCode('');
     setSuccessData(null);
+    setPaymentMethod(allowedPaymentMethods[0]?.value || 'Cash');
   };
 
   return (
@@ -183,13 +195,21 @@ export function Donate() {
                   {paymentMethod === 'UPI' ? (
                     <div className="text-center space-y-4 flex flex-col items-center">
                       <p className="text-[11px] text-gray-600 leading-relaxed font-sans">
-                        Scan the QR code below using any UPI app (PhonePe, GooglePay, Paytm) to transfer the amount of <strong>₹{amount}</strong>.
+                        {isSectionVisible('donation_qr_enabled') 
+                          ? `Scan the QR code below using any UPI app (PhonePe, GooglePay, Paytm) to transfer the amount of ₹${amount}.`
+                          : `Transfer the amount of ₹${amount} directly to the temple UPI ID below.`}
                       </p>
                       
-                      <div className="p-4 bg-white border border-[#EEDCC1] rounded-2xl shadow-inner relative flex flex-col items-center">
-                        <QrCode className="w-32 h-32 text-gray-800" />
-                        <span className="text-[9px] uppercase tracking-wider text-[#9B2226] font-bold mt-2">temple@sbi-upi</span>
-                      </div>
+                      {isSectionVisible('donation_qr_enabled') ? (
+                        <div className="p-4 bg-white border border-[#EEDCC1] rounded-2xl shadow-inner relative flex flex-col items-center">
+                          <QrCode className="w-32 h-32 text-gray-800" />
+                          <span className="text-[9px] uppercase tracking-wider text-[#9B2226] font-bold mt-2">temple@sbi-upi</span>
+                        </div>
+                      ) : (
+                        <div className="p-4 bg-[#FFF9F0] border border-[#EEDCC1] rounded-2xl font-bold font-sans text-xs text-[#9B2226]">
+                          UPI ID: temple@sbi-upi
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <div className="space-y-4">
@@ -330,10 +350,11 @@ export function Donate() {
                               onChange={e => setPaymentMethod(e.target.value)}
                               className="w-full px-4 py-3 border border-[#EEDCC1] rounded-xl bg-[#FDFBF7] text-sm outline-none cursor-pointer"
                             >
-                              <option value="UPI">UPI (QR Code Scan)</option>
-                              <option value="Bank Transfer">Bank Wire Transfer</option>
-                              <option value="Cash">Cash (At Mandir Counter)</option>
-                              <option value="Cheque">Demand Draft / Cheque</option>
+                              {allowedPaymentMethods.map(method => (
+                                <option key={method.value} value={method.value}>
+                                  {method.label}
+                                </option>
+                              ))}
                             </select>
                           </div>
                         ) : (

@@ -5,6 +5,7 @@ import {
   Users, Mail, Phone, Calendar, Award, ShieldCheck, 
   UserCheck, Star, Sparkles, PhoneCall, Bookmark, Heart
 } from 'lucide-react';
+import { useVisibility } from '../../lib/VisibilityContext';
 
 // Lotus SVG Motif
 const LotusMotif = ({ className = "w-8 h-8 text-[#CFB53B]" }: { className?: string }) => (
@@ -115,9 +116,21 @@ const CATEGORIES_TO_RENDER = [
 ];
 
 export function Committee() {
+  const { isSectionVisible } = useVisibility();
   const [groupedMembers, setGroupedMembers] = useState<any>({});
   const [pastMembers, setPastMembers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const categoriesToRender = [
+    { key: 'CHAIRMAN', label: 'Chairman', isFeatured: true, visible: isSectionVisible('chairman_card_enabled') },
+    { key: 'GENERAL_SECRETARY', label: 'General Secretary', isFeatured: true, visible: isSectionVisible('gen_secretary_card_enabled') },
+    { key: 'TREASURER', label: 'Treasurer', isFeatured: true, visible: isSectionVisible('treasurer_card_enabled') },
+    { key: 'VICE_CHAIRMAN', label: 'Vice Chairmen', isFeatured: false, visible: isSectionVisible('executive_members_enabled') },
+    { key: 'JOINT_SECRETARY', label: 'Joint Secretaries', isFeatured: false, visible: isSectionVisible('executive_members_enabled') },
+    { key: 'ORGANISING_SECRETARY', label: 'Organising Secretaries', isFeatured: false, visible: isSectionVisible('executive_members_enabled') },
+    { key: 'EXECUTIVE_MEMBER', label: 'Executive Members', isFeatured: false, visible: isSectionVisible('executive_members_enabled') },
+    { key: 'ADVISOR', label: 'Advisors', isFeatured: false, visible: isSectionVisible('advisors_enabled') }
+  ].filter(c => c.visible);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -266,7 +279,7 @@ export function Committee() {
           </div>
 
           {/* Rendering the Hierarchy */}
-          {CATEGORIES_TO_RENDER.map((catInfo) => {
+          {categoriesToRender.map((catInfo) => {
             const membersList = groupedMembers[catInfo.key] || [];
             if (membersList.length === 0) return null;
 
@@ -538,42 +551,44 @@ export function Committee() {
       </section>
 
       {/* 3. Former Trustees & Members Archive */}
-      <section className="py-20 px-4 max-w-6xl mx-auto w-full">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="flex items-center gap-4 mb-12"
-        >
-          <div className="h-[1px] w-12 bg-[#C09B6A]" />
-          <h2 className="text-2xl md:text-3xl font-bold italic text-[#3E2723]">Former Committee Members</h2>
-        </motion.div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-sans text-xs">
-          {pastMembers.map((member, idx) => (
-            <motion.div 
-              key={member._id} 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.05, duration: 0.5 }}
-              className="p-5 rounded-2xl bg-white border border-[#EEDCC1] flex justify-between items-center hover:bg-orange-50/10 hover:border-[#CFB53B]/30 transition-all duration-300"
-            >
-              <div className="space-y-1">
-                <h4 className="font-bold text-sm text-gray-800 font-serif">{member.name}</h4>
-                <p className="text-[10px] text-[#9B2226] font-bold uppercase tracking-wider">{member.role || member.designation}</p>
-              </div>
-              <div className="text-right">
-                <span className="text-[9px] text-gray-400 font-sans uppercase tracking-wider block">Tenure</span>
-                <span className="text-[10px] font-bold text-gray-600 font-mono block">{member.periodStart} - {member.periodEnd}</span>
-              </div>
-            </motion.div>
-          ))}
-          {pastMembers.length === 0 && (
-            <p className="text-gray-400 italic">No former committee members archived.</p>
-          )}
-        </div>
-      </section>
+      {isSectionVisible('former_members_enabled') && (
+        <section className="py-20 px-4 max-w-6xl mx-auto w-full">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="flex items-center gap-4 mb-12"
+          >
+            <div className="h-[1px] w-12 bg-[#C09B6A]" />
+            <h2 className="text-2xl md:text-3xl font-bold italic text-[#3E2723]">Former Committee Members</h2>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-sans text-xs">
+            {pastMembers.map((member, idx) => (
+              <motion.div 
+                key={member._id} 
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.05, duration: 0.5 }}
+                className="p-5 rounded-2xl bg-white border border-[#EEDCC1] flex justify-between items-center hover:bg-orange-50/10 hover:border-[#CFB53B]/30 transition-all duration-300"
+              >
+                <div className="space-y-1">
+                  <h4 className="font-bold text-sm text-gray-800 font-serif">{member.name}</h4>
+                  <p className="text-[10px] text-[#9B2226] font-bold uppercase tracking-wider">{member.role || member.designation}</p>
+                </div>
+                <div className="text-right">
+                  <span className="text-[9px] text-gray-400 font-sans uppercase tracking-wider block">Tenure</span>
+                  <span className="text-[10px] font-bold text-gray-600 font-mono block">{member.periodStart} - {member.periodEnd}</span>
+                </div>
+              </motion.div>
+            ))}
+            {pastMembers.length === 0 && (
+              <p className="text-gray-400 italic">No former committee members archived.</p>
+            )}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

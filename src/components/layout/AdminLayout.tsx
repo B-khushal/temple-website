@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   Menu,
   X,
+  Eye,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useAuth, api } from '../../lib/api';
@@ -55,6 +56,7 @@ export function AdminLayout() {
     { name: 'Messages', path: '/admin/messages', icon: Mail, roles: ['Super Admin', 'Content Manager', 'Committee Member'] },
     { name: 'User Accounts', path: '/admin/users', icon: UserCheck, roles: ['Super Admin'] },
     { name: 'Reports Board', path: '/admin/reports', icon: FileSpreadsheet, roles: ['Super Admin', 'Treasurer', 'Accountant'] },
+    { name: 'Website Controls', path: '/admin/visibility', icon: Eye, roles: ['Super Admin', 'Content Manager'] },
     { name: 'Settings', path: '/admin/settings', icon: SettingsIcon, roles: ['Super Admin', 'Content Manager'] },
   ];
 
@@ -223,7 +225,7 @@ export function AdminLayout() {
             <div className="flex-grow flex flex-col items-center justify-center py-2 sm:py-0">
               <Users className="w-5 h-5 text-[#9B2226] mb-1" />
               <p className="text-2xl sm:text-3xl font-bold text-[#9B2226] mb-1 tracking-tighter font-serif">
-                {publicStats?.registeredDevotees ? publicStats.registeredDevotees.toLocaleString() : '25,000'}
+                {publicStats && publicStats.registeredDevotees !== undefined ? publicStats.registeredDevotees.toLocaleString() : '0'}
               </p>
               <p className="text-[10px] font-sans font-bold uppercase tracking-widest text-gray-500">Registered Devotees</p>
             </div>
@@ -231,7 +233,7 @@ export function AdminLayout() {
             <div className="flex-grow flex flex-col items-center justify-center py-2 sm:py-0 sm:pl-4">
               <Heart className="w-5 h-5 text-[#9B2226] mb-1" />
               <p className="text-2xl sm:text-3xl font-bold text-[#9B2226] mb-1 tracking-tighter font-serif">
-                ₹{publicStats?.totalDonations ? (publicStats.totalDonations / 1000).toFixed(1) + 'K' : '150K'}
+                ₹{publicStats && publicStats.totalDonations !== undefined ? (publicStats.totalDonations >= 1000 ? (publicStats.totalDonations / 1000).toFixed(1) + 'K' : publicStats.totalDonations.toLocaleString()) : '0'}
               </p>
               <p className="text-[10px] font-sans font-bold uppercase tracking-widest text-gray-500">Total Devotion Funds</p>
             </div>

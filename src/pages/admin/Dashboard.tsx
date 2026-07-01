@@ -12,7 +12,7 @@ export function Dashboard() {
     todayCollection: 0,
     activeDonors: 0,
     goldReserveValuation: 0,
-    goldReserveWeight: 142.65,
+    goldReserveWeight: 0,
   });
 
   const [recentOfferings, setRecentOfferings] = useState<any[]>([]);
